@@ -1,0 +1,6 @@
+{%- assign total = count | default: 4 -%}
+<span class="knr-steps" aria-hidden="true" data-knr-steps>
+  {%- for index in (1..total) -%}
+    <span class="knr-steps__step{% if forloop.first %} knr-steps__step--on{% endif %}"></span>
+  {%- endfor -%}
+</span>

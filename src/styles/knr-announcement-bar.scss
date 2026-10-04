@@ -1,0 +1,58 @@
+@use 'mixins/mq' as *;
+@use 'mixins/text' as *;
+
+.knr-announcement-bar {
+  background: var(--color-ink);
+  color: var(--color-white);
+  position: relative;
+  z-index: var(--z-announcement-bar);
+}
+
+.knr-announcement-bar .knr-container {
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+.knr-announcement-bar__messages {
+  align-items: center;
+  display: grid;
+  justify-items: center;
+  min-height: 32px;
+}
+
+.knr-announcement-bar__message {
+  @include text-nav;
+
+  grid-area: 1 / 1;
+  text-align: center;
+  transition:
+    opacity 0.4s ease,
+    translate 0.4s ease;
+
+  &[inert] {
+    opacity: 0;
+    translate: calc(var(--knr-slide, 1) * 12px) 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.knr-announcement-bar__message a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.knr-announcement-bar__steps {
+  grid-area: 1 / 1;
+  justify-self: end;
+}
+
+.knr-announcement-bar__steps .knr-steps__step {
+  background: color-mix(in srgb, var(--color-white) 40%, transparent);
+}
+
+.knr-announcement-bar__steps .knr-steps__step--on {
+  background: var(--color-white);
+}

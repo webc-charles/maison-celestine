@@ -1,0 +1,40 @@
+@use 'mixins/mq' as *;
+@use 'mixins/text' as *;
+
+.knr-faq {
+  padding-top: 40px;
+  padding-bottom: 40px;
+
+  @include mq-md {
+    padding-top: 120px;
+    padding-bottom: 120px;
+  }
+}
+
+.knr-faq__list {
+  margin-top: 40px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 720px;
+
+  @include mq-md {
+    margin-top: 80px;
+  }
+}
+
+.knr-faq__list .knr-accordion__summary {
+  @include text-heading;
+
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.knr-faq__list .knr-accordion__summary[aria-expanded='true'] {
+  padding-bottom: 16px;
+}
+
+.knr-faq__list .knr-accordion__panel {
+  @include text-lead;
+
+  padding-bottom: 20px;
+}

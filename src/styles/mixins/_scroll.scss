@@ -1,0 +1,30 @@
+@mixin scroll-row($align: start) {
+  // l'anneau de focus deborde de 3 px et overflow le rognerait :
+  // on lui fait de la place, la marge negative annule le decalage
+  margin: -4px;
+  padding: 4px;
+
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  > li {
+    scroll-snap-align: $align;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    &.knr-draggable {
+      cursor: grab;
+    }
+
+    &.knr-dragging {
+      cursor: grabbing;
+      scroll-snap-type: none;
+      user-select: none;
+    }
+  }
+}

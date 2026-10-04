@@ -1,0 +1,102 @@
+{{ 'knr-footer-links.css' | asset_url | stylesheet_tag }}
+
+<div class="knr-container knr-footer-links__grid">
+  {%- for block in section.blocks -%}
+    {%- case block.type -%}
+      {%- when 'menu' -%}
+        <details class="knr-footer-links__column" {{ block.shopify_attributes }}>
+          <summary class="knr-footer-links__title">
+            <span>{{ block.settings.title }}</span>
+            <span class="knr-footer-links__marker">{% render 'knr-icon', name: 'chevron-down', size: 8 %}</span>
+          </summary>
+          <ul class="knr-footer-links__list">
+            {%- for link in block.settings.menu.links -%}
+              <li><a class="knr-footer-links__link" href="{{ link.url }}">{{ link.title }}</a></li>
+            {%- endfor -%}
+          </ul>
+        </details>
+
+      {%- when 'about' -%}
+        <div class="knr-footer-links__about" {{ block.shopify_attributes }}>
+          <h2 class="knr-footer-links__title">{{ block.settings.title }}</h2>
+          <p class="knr-footer-links__text">{{ block.settings.text }}</p>
+
+          {%- if block.settings.certification_image -%}
+            {%- assign certification_alt = block.settings.certification_text | strip_html -%}
+            <div class="knr-footer-links__certification">
+              {{ block.settings.certification_image | image_url: width: 94 | image_tag: widths: '47, 94', alt: certification_alt, class: 'knr-footer-links__certification-image' }}
+              <p class="knr-footer-links__certification-text">{{ block.settings.certification_text }}</p>
+              {%- if block.settings.certification_url != blank -%}
+                <a class="knr-footer-links__certification-link" href="{{ block.settings.certification_url }}">{{ block.settings.certification_label }}</a>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        </div>
+    {%- endcase -%}
+  {%- endfor -%}
+</div>
+
+{% schema %}
+{
+  "name": "Footer — links",
+  "tag": "section",
+  "class": "knr-footer-links",
+  "blocks": [
+    {
+      "type": "menu",
+      "name": "Link column",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Menu"
+        }
+      ]
+    },
+    {
+      "type": "about",
+      "name": "About",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text"
+        },
+        {
+          "type": "image_picker",
+          "id": "certification_image",
+          "label": "Certification logo"
+        },
+        {
+          "type": "textarea",
+          "id": "certification_text",
+          "label": "Certification text"
+        },
+        {
+          "type": "text",
+          "id": "certification_label",
+          "label": "Link",
+          "default": "Voir le certificat"
+        },
+        {
+          "type": "url",
+          "id": "certification_url",
+          "label": "Certificate URL"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

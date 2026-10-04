@@ -1,0 +1,14 @@
+.knr-skip-link {
+  background: var(--color-ink);
+  color: var(--color-white);
+  top: 0;
+  left: 0;
+  padding: 8px 16px;
+  position: absolute;
+  transform: translateY(-100%);
+  z-index: var(--z-skip-link);
+
+  &:focus-visible {
+    transform: none;
+  }
+}

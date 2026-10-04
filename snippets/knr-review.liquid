@@ -1,0 +1,14 @@
+<li class="knr-reviews__item" data-knr-review data-rating="{{ review.rating }}"{% if hidden %} hidden{% endif %}>
+  <div class="knr-reviews__item-header">
+    {% render 'knr-rating', score: review.rating %}
+    <p class="knr-reviews__date" data-knr-review-date>{{ review.created_at | date: '%d/%m/%y' }}</p>
+  </div>
+  <p class="knr-reviews__author" data-knr-review-author>
+    {{ review.reviewer_name }}
+    {%- if review.verified_buyer -%}
+      <span class="knr-reviews__verified">{{ verified_label }}</span>
+    {%- endif -%}
+  </p>
+  <p class="knr-reviews__usage" data-knr-review-usage{% unless review.title %} hidden{% endunless %}>{{ review.title }}</p>
+  <p class="knr-reviews__text" data-knr-review-body>{{ review.body }}</p>
+</li>

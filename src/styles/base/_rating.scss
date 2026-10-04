@@ -1,0 +1,32 @@
+@use '../mixins/text' as *;
+
+.knr-rating {
+  display: grid;
+  gap: 4px;
+  justify-items: end;
+}
+
+.knr-rating__stars {
+  align-items: center;
+  display: flex;
+}
+
+.knr-rating__star {
+  color: var(--color-gold);
+  display: flex;
+}
+
+.knr-rating__star--empty {
+  opacity: 0.3;
+}
+
+.knr-rating__label {
+  margin-left: 4px;
+}
+
+.knr-rating__label,
+.knr-rating__count {
+  @include text-small;
+
+  color: var(--color-gold);
+}

@@ -1,0 +1,46 @@
+@use '../mixins/text' as *;
+
+.knr-media-card {
+  display: grid;
+  gap: 16px;
+}
+
+.knr-media-card__image {
+  aspect-ratio: 1;
+  display: block;
+  object-fit: cover;
+  width: 100%;
+}
+
+.knr-media-card__image--placeholder {
+  background: var(--color-shell);
+}
+
+.knr-media-card__body {
+  display: grid;
+  gap: 8px;
+}
+
+.knr-media-card__eyebrow {
+  @include text-small;
+}
+
+.knr-media-card__title {
+  @include text-heading;
+
+  white-space: pre-line;
+}
+
+.knr-media-card__text {
+  @include text-lead;
+
+  padding-right: 20px;
+}
+
+.knr-media-card__link {
+  @include text-body;
+
+  border-bottom: 1px solid currentcolor;
+  justify-self: start;
+  padding-bottom: 1px;
+}

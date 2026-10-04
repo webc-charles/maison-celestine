@@ -1,0 +1,131 @@
+{{ 'knr-product-gallery.css' | asset_url | stylesheet_tag }}
+{{ 'knr-product-panel.css' | asset_url | stylesheet_tag }}
+
+{%- comment -%}
+  Un seul interrupteur decide de la mise en page desktop : le hero pleine
+  largeur de la maquette, ou la galerie dans le container avec le hero
+  reserve au mobile.
+{%- endcomment -%}
+{%- assign full_bleed = product.metafields.knr.hero_full_bleed.value -%}
+{%- assign background = product.metafields.knr.hero_background_color.value -%}
+
+{%- capture canvas_style -%}
+  {%- if background != blank %}--knr-hero-background: {{ background }};{% endif -%}
+{%- endcapture -%}
+
+<div
+  class="knr-product-main__canvas{% if full_bleed %} knr-product-main__canvas--hero{% endif %}"
+  style="{{ canvas_style | strip }}"
+>
+  <div class="knr-container knr-product-main__grid{% if full_bleed %} knr-product-main__grid--hero{% endif %}">
+    {% render 'knr-product-gallery', product: product, full_bleed: full_bleed, zoom_label: section.settings.zoom_label, previous_label: section.settings.previous_label, next_label: section.settings.next_label %}
+    {% render 'knr-product-panel', product: product, section: section %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Product — main block",
+  "tag": "section",
+  "class": "knr-product-main",
+  "settings": [
+    {
+      "type": "text",
+      "id": "add_to_cart_label",
+      "label": "Add to cart button",
+      "default": "Ajouter au panier"
+    },
+    {
+      "type": "text",
+      "id": "breadcrumb_label",
+      "label": "Breadcrumb label",
+      "default": "Fil d'ariane"
+    },
+    {
+      "type": "collection",
+      "id": "related_collection",
+      "label": "Related collection"
+    },
+    {
+      "type": "text",
+      "id": "related_title",
+      "label": "Related products heading",
+      "default": "Complétez votre rituel"
+    },
+    {
+      "type": "text",
+      "id": "rating_label",
+      "label": "Review count",
+      "default": "[count] avis"
+    },
+    {
+      "type": "text",
+      "id": "zoom_label",
+      "label": "Image zoom button",
+      "default": "Agrandir l’image"
+    },
+    {
+      "type": "text",
+      "id": "previous_label",
+      "label": "Gallery previous image",
+      "default": "Image précédente"
+    },
+    {
+      "type": "text",
+      "id": "next_label",
+      "label": "Gallery next image",
+      "default": "Image suivante"
+    },
+    {
+      "type": "text",
+      "id": "notice_label",
+      "label": "Notice step label",
+      "info": "[index] is replaced by the step number.",
+      "default": "Message [index]"
+    },
+    {
+      "type": "text",
+      "id": "unit_price_label",
+      "label": "Unit price preposition",
+      "info": "Placed between the unit price and its reference measure.",
+      "default": "par"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "detail",
+      "name": "Collapsible row",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading"
+        },
+        {
+          "type": "text",
+          "id": "metafield",
+          "label": "Product metafield key (knr namespace)"
+        },
+        {
+          "type": "richtext",
+          "id": "fallback",
+          "label": "Fallback content"
+        }
+      ]
+    },
+    {
+      "type": "notice",
+      "name": "Buy box notice",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

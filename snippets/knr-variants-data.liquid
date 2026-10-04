@@ -1,0 +1,18 @@
+<script type="application/json" data-knr-variants-data>
+  [
+    {%- for item in product.variants -%}
+      {%- unless forloop.first %},{% endunless -%}
+      {
+        "id": {{ item.id }},
+        "option": {{ item.option1 | json }},
+        "available": {{ item.available }},
+        "price": {{ item.price | money | json }},
+        "compare": {% if item.compare_at_price > item.price %}{{ item.compare_at_price | money | json }}{% else %}null{% endif %},
+        "unit": {% if item.unit_price_measurement -%}
+          {{- item.unit_price | money | append: ' ' | append: unit_label | append: ' ' | append: item.unit_price_measurement.reference_value | append: ' ' | append: item.unit_price_measurement.reference_unit | json -}}
+        {%- else -%}null{%- endif %},
+        "url": {{ item.url | json }}
+      }
+    {%- endfor -%}
+  ]
+</script>

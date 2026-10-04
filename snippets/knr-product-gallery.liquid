@@ -1,0 +1,154 @@
+{%- liquid
+  assign slide_themes = product.metafields.knr.hero_mobile_theme.value | join: ';' | split: ';'
+  assign first_theme = slide_themes[0] | default: 'light'
+
+  assign hero_desktop = product.metafields.knr.hero_desktop_images.value
+  assign hero_mobile = product.metafields.knr.hero_mobile_images.value
+
+  comment
+    Les deux champs portent des images taillees pour la galerie. Sans eux
+    on retombe sur le media du produit, recadre pour le carousel mobile.
+  endcomment
+
+  assign slides = product.images
+  assign slides_cropped = true
+  if hero_mobile != blank
+    assign slides = hero_mobile
+    assign slides_cropped = false
+  endif
+
+  comment
+    En pleine largeur la premiere image part dans le hero et les suivantes
+    remplissent le damier. Sinon le hero est masque en desktop et toutes
+    les images du produit deviennent des tuiles.
+  endcomment
+  assign tiles = product.images
+  assign tiles_offset = 0
+  if full_bleed
+    assign tiles_offset = 1
+    if hero_desktop != blank
+      assign tiles = hero_desktop
+    endif
+  endif
+-%}
+
+{%- comment -%}
+  Une entree par diapositive : petite URL, grande URL, puis les dimensions
+  de la petite, que le navigateur reserve avant de telecharger l'image.
+{%- endcomment -%}
+{%- capture mobile_sources -%}
+  {%- for file in slides -%}
+    {%- if slides_cropped -%}
+      {%- assign small = file | image_url: width: 780, height: 1100, crop: 'center' -%}
+      {%- assign large = file | image_url: width: 1560, height: 2200, crop: 'center' -%}
+      {%- assign tall = 1100 -%}
+    {%- else -%}
+      {%- assign small = file | image_url: width: 780 -%}
+      {%- assign large = file | image_url: width: 1560 -%}
+      {%- assign tall = file.height | times: 780 | divided_by: file.width -%}
+    {%- endif -%}
+    {{- small }}|{{ large }}|780|{{ tall -}}
+    {%- unless forloop.last %};{% endunless -%}
+  {%- endfor -%}
+{%- endcapture -%}
+
+{%- comment -%} le hero n'existe en desktop que dans la maquette {%- endcomment -%}
+{%- capture desktop_sources -%}
+  {%- if full_bleed -%}
+    {%- for file in hero_desktop -%}
+      {{- file | image_url: width: 1440 }}|{{ file | image_url: width: 2880 -}}
+      {%- unless forloop.last %};{% endunless -%}
+    {%- endfor -%}
+  {%- endif -%}
+{%- endcapture -%}
+
+{%- assign mobile_list = mobile_sources | split: ';' -%}
+{%- assign desktop_list = desktop_sources | split: ';' -%}
+
+<div class="knr-product-gallery">
+  {%- if slides.size > 0 -%}
+    <div class="knr-product-gallery__hero knr-theme-{{ first_theme }}" data-knr-scope>
+      <span class="knr-product-gallery__veil" aria-hidden="true"></span>
+      {% render 'knr-badges', badges: product.metafields.knr.hero_badges.value, class: 'knr-product-gallery__badges' %}
+      <ul class="knr-product-gallery__slides" data-knr-drag data-knr-slide-theme>
+        {%- for image in slides -%}
+          {%- assign mobile = mobile_list[forloop.index0] | default: '' | split: '|' -%}
+          {%- assign wide = desktop_list[forloop.index0] | default: '' | split: '|' -%}
+          <li class="knr-product-gallery__slide" data-knr-theme="{{ slide_themes[forloop.index0] | default: 'light' }}">
+            <picture>
+              {%- if wide.size == 2 -%}
+                <source
+                  media="(min-width: 1024px)"
+                  srcset="{{ wide[0] }} 1440w, {{ wide[1] }} 2880w"
+                  sizes="100vw"
+                >
+              {%- endif -%}
+              <img
+                class="knr-product-gallery__hero-image"
+                src="{{ mobile[0] }}"
+                srcset="{{ mobile[0] }} 780w, {{ mobile[1] }} 1560w"
+                sizes="100vw"
+                width="{{ mobile[2] }}"
+                height="{{ mobile[3] }}"
+                alt="{{ product.title | escape }}"
+                {% unless forloop.first %}
+                  loading="lazy"
+                {% endunless %}
+              >
+            </picture>
+          </li>
+        {%- endfor -%}
+      </ul>
+
+      {%- if slides.size > 1 -%}
+        <div class="knr-product-gallery__controls" data-knr-carousel>
+          <button
+            class="knr-button knr-button--ghost knr-button--small knr-button--square knr-product-gallery__arrow knr-product-gallery__arrow--previous"
+            type="button"
+            aria-label="{{ previous_label | escape }}"
+            data-knr-carousel-previous
+          >
+            {% render 'knr-icon', name: 'chevron-left' %}
+          </button>
+          <button
+            class="knr-button knr-button--ghost knr-button--small knr-button--square knr-product-gallery__arrow knr-product-gallery__arrow--next"
+            type="button"
+            aria-label="{{ next_label | escape }}"
+            data-knr-carousel-next
+          >
+            {% render 'knr-icon', name: 'chevron-right' %}
+          </button>
+        </div>
+      {%- endif -%}
+
+      {% render 'knr-progress' %}
+    </div>
+  {%- endif -%}
+
+  {%- if tiles.size > tiles_offset -%}
+    <div class="knr-product-gallery__grid">
+      {%- for image in tiles offset: tiles_offset -%}
+        <figure class="knr-product-gallery__item" data-knr-zoom>
+          {{
+            image
+            | image_url: width: 2808
+            | image_tag:
+              widths: '468, 936, 1400, 1872, 2808',
+              sizes: '(min-width: 1024px) 33vw, 100vw',
+              alt: product.title,
+              class: 'knr-product-gallery__image'
+          }}
+          <button
+            class="knr-button knr-button--ghost knr-button--small knr-button--square knr-product-gallery__zoom"
+            type="button"
+            aria-label="{{ zoom_label | escape }}"
+            aria-pressed="false"
+            data-knr-zoom-toggle
+          >
+            {% render 'knr-icon', name: 'plus', size: 11.31 %}
+          </button>
+        </figure>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+</div>

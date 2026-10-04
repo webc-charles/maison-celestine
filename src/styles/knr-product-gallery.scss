@@ -1,0 +1,241 @@
+@use 'mixins/mq' as *;
+@use 'mixins/scroll' as *;
+
+.knr-product-gallery {
+  @include mq-md {
+    align-content: start;
+    display: grid;
+    grid-column: 1 / -1;
+    grid-row: 1;
+    grid-template-columns: subgrid;
+  }
+}
+
+.knr-theme-light {
+  --knr-slide-ink: var(--color-white);
+  --knr-slide-paper: var(--color-ink);
+}
+
+.knr-theme-dark {
+  --knr-slide-ink: var(--color-ink);
+  --knr-slide-paper: var(--color-white);
+}
+
+.knr-product-gallery__hero {
+  background: var(--knr-hero-background, var(--color-dune));
+  isolation: isolate;
+  position: relative;
+
+  // sans image taillee pour le desktop, le carousel reste au mobile
+  // et toutes les images du produit passent dans le damier
+  @include mq-md {
+    display: none;
+  }
+}
+
+.knr-product-main__grid--hero .knr-product-gallery__hero {
+  @include mq-md {
+    display: block;
+    grid-column: 1 / -1;
+  }
+
+  @include mq-lg {
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+  }
+}
+
+.knr-product-gallery__veil::after {
+  background: var(--knr-hero-background, var(--color-dune));
+  content: '';
+  height: 160px;
+  left: 0;
+  mask-image: linear-gradient(180deg, #000, transparent);
+  position: absolute;
+  right: 0;
+  top: 100%;
+
+  @include mq-md {
+    content: none;
+  }
+}
+
+.knr-product-gallery__hero .knr-progress {
+  --knr-progress-ink: var(--knr-slide-ink);
+  --knr-progress-track: var(--knr-slide-paper);
+
+  bottom: 90px;
+  left: 0;
+  right: 0;
+  position: absolute;
+  transition: background-color 0.25s ease;
+  z-index: var(--z-hero-overlay);
+
+  @include mq-md {
+    display: none;
+  }
+}
+
+.knr-product-gallery__hero::after {
+  background: linear-gradient(180deg, transparent, var(--knr-hero-background, var(--color-dune)));
+  bottom: 0;
+  content: '';
+  height: 100px;
+  left: 0;
+  right: 0;
+  position: absolute;
+  z-index: var(--z-hero-overlay);
+
+  @include mq-md {
+    content: none;
+  }
+}
+
+.knr-product-gallery__slides {
+  @include scroll-row;
+
+  display: grid;
+  grid-auto-columns: 100%;
+  grid-auto-flow: column;
+
+  @include mq-md {
+    display: block;
+    overflow-x: visible;
+  }
+}
+
+.knr-product-gallery__slide + .knr-product-gallery__slide {
+  @include mq-md {
+    display: none;
+  }
+}
+
+.knr-product-gallery__controls {
+  @include mq-md {
+    display: none;
+  }
+}
+
+.knr-product-gallery__arrow {
+  color: var(--knr-slide-ink);
+  position: absolute;
+  top: 50%;
+  transition: color 0.25s ease;
+  translate: 0 -50%;
+  z-index: var(--z-hero-overlay);
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.knr-product-gallery__arrow[disabled]:not(.knr-button--loading) {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.knr-product-gallery__arrow--previous {
+  left: 16px;
+}
+
+.knr-product-gallery__arrow--next {
+  right: 16px;
+}
+
+.knr-product-gallery__badges {
+  --knr-badges-paper: var(--knr-slide-paper);
+  --knr-badges-ink: var(--knr-slide-ink);
+  --knr-badges-rule: var(--knr-slide-paper);
+
+  top: 72px;
+  left: 0;
+  right: 0;
+  justify-content: center;
+  position: absolute;
+  z-index: var(--z-hero-overlay);
+
+  @include mq-md {
+    display: none;
+  }
+}
+
+.knr-product-gallery__veil {
+  background:
+    linear-gradient(180deg, rgb(0 0 0 / 24%) 0%, rgb(0 0 0 / 0%) 100%),
+    var(--color-veil);
+  inset: 0;
+  position: absolute;
+  z-index: var(--z-hero-veil);
+}
+
+.knr-product-gallery__hero-image {
+  position: relative;
+  z-index: var(--z-hero-image);
+  height: 550px;
+  object-fit: cover;
+  width: 100%;
+
+  @include mq-md {
+    height: 760px;
+  }
+}
+
+.knr-product-gallery__grid {
+  display: none;
+
+  @include mq-md {
+    display: grid;
+    gap: 8px;
+    grid-column: 1;
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+// le damier se detache du hero du meme ecart que les tuiles entre elles
+.knr-product-main__grid--hero .knr-product-gallery__grid {
+  @include mq-md {
+    padding-top: 8px;
+  }
+}
+
+.knr-product-gallery__item {
+  cursor: zoom-in;
+  overflow: hidden;
+  position: relative;
+}
+
+.knr-product-gallery__image {
+  aspect-ratio: 468 / 609;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+  width: 100%;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.knr-product-gallery__item--zoomed {
+  cursor: zoom-out;
+}
+
+.knr-product-gallery__item--zoomed .knr-product-gallery__image {
+  transform: scale(2);
+  transform-origin: var(--knr-zoom-x, 50%) var(--knr-zoom-y, 50%);
+}
+
+.knr-product-gallery__item--zoomed .knr-product-gallery__zoom .knr-icon {
+  transform: rotate(45deg);
+}
+
+.knr-product-gallery__zoom {
+  color: var(--color-white);
+  bottom: 17.5px;
+  right: 17.5px;
+  position: absolute;
+  z-index: 1;
+}
+
+.knr-product-gallery__zoom .knr-icon {
+  transition: transform 0.15s ease;
+}

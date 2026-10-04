@@ -1,0 +1,21 @@
+{%- liquid
+  assign tag = tag | default: 'button'
+  assign kind = kind | default: 'filled'
+  assign size = size | default: 'medium'
+
+  capture classes
+    echo 'knr-button knr-button--'
+    echo kind
+    echo ' knr-button--'
+    echo size
+    if class
+      echo ' '
+      echo class
+    endif
+  endcapture
+-%}
+{%- if tag == 'a' -%}
+  <a class="{{ classes }}" href="{{ url }}"><span class="knr-button__label">{{ label }}</span></a>
+{%- else -%}
+  <button class="{{ classes }}" type="{{ type | default: 'button' }}"{% if name %} name="{{ name }}"{% endif %}{% if disabled %} disabled{% endif %}><span class="knr-button__label">{{ label }}</span></button>
+{%- endif -%}

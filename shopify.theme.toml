@@ -1,0 +1,7 @@
+[environments.default]
+store = "maison-celestine-u8ylty24.myshopify.com"
+
+[environments.live]
+store = "maison-celestine-u8ylty24.myshopify.com"
+theme = "188119941210"
+allow-live = true

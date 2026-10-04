@@ -1,0 +1,72 @@
+$roots: '.knr-page, .knr-announcement-bar, .knr-page-header, .knr-page-footer';
+
+:where(#{$roots}),
+:where(#{$roots}) *,
+:where(#{$roots}) *::before,
+:where(#{$roots}) *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:where(#{$roots}) :is(h1, h2, h3, h4) {
+  font-size: inherit;
+  font-weight: 400;
+}
+
+:where(#{$roots}) :is(ul, ol) {
+  list-style: none;
+}
+
+:where(#{$roots}) a {
+  color: inherit;
+  text-decoration: none;
+}
+
+:where(#{$roots}) a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+:where(#{$roots}) a:is(
+  .knr-button,
+  .knr-page-header__logo,
+  .knr-footer-logo__social-link,
+  .knr-product-card__link,
+  .knr-media-card__media,
+  .knr-section-header__link,
+  .knr-media-card__link
+):hover {
+  text-decoration: none;
+}
+
+:where(#{$roots}) :is(img, svg) {
+  display: block;
+  height: auto;
+  max-width: 100%;
+}
+
+:where(#{$roots}) :is(fieldset, legend) {
+  border: 0;
+}
+
+:where(#{$roots}) :is(button, input, select) {
+  background: none;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+}
+
+:where(#{$roots}) button {
+  cursor: pointer;
+}
+
+:where(#{$roots}) :focus-visible {
+  outline: 1px solid currentColor;
+  outline-offset: 2px;
+}
+
+:where(#{$roots}) [hidden] {
+  display: none !important;
+}

@@ -1,0 +1,18 @@
+{%- assign panel_id = 'knr-panel-' | append: group | append: '-' | append: index -%}
+<div class="knr-accordion__item">
+  <h2>
+    <button
+      class="knr-accordion__summary"
+      type="button"
+      aria-expanded="{% if open %}true{% else %}false{% endif %}"
+      aria-controls="{{ panel_id }}"
+      data-knr-disclosure
+      {% if group %}data-knr-disclosure-group="{{ group }}"{% endif %}>
+      <span>{{ title }}</span>
+      <span class="knr-accordion__marker" aria-hidden="true">{% render 'knr-icon', name: 'chevron-down' %}</span>
+    </button>
+  </h2>
+  <div class="knr-accordion__panel" id="{{ panel_id }}">
+    {{ content }}
+  </div>
+</div>

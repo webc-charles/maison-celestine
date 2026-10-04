@@ -1,0 +1,7 @@
+{%- if badges.size > 0 -%}
+  <ul class="knr-badges{% if class %} {{ class }}{% endif %}">
+    {%- for badge in badges -%}
+      <li class="knr-badges__item">{{ badge }}</li>
+    {%- endfor -%}
+  </ul>
+{%- endif -%}

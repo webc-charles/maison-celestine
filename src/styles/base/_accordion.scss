@@ -1,0 +1,84 @@
+@use '../mixins/text' as *;
+
+.knr-accordion {
+  display: grid;
+}
+
+.knr-accordion__item {
+  border-top: 1px solid var(--color-rule);
+}
+
+.knr-accordion__item:last-child {
+  border-bottom: 1px solid var(--color-rule);
+}
+
+.knr-accordion__summary {
+  @include text-body;
+
+  align-items: center;
+  transition: padding-bottom 0.3s ease;
+  background: none;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  display: flex;
+  font: inherit;
+  gap: 16px;
+  justify-content: space-between;
+  letter-spacing: inherit;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  text-align: left;
+  width: 100%;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.knr-accordion__summary[aria-expanded='true'] {
+  padding-bottom: 8px;
+}
+
+.knr-accordion__marker {
+  align-items: center;
+  aspect-ratio: 1;
+  display: flex;
+  justify-content: center;
+  margin-bottom: -2px;
+  margin-right: -8px;
+  margin-top: -2px;
+  min-width: 24px;
+  transition: transform 0.2s ease;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.knr-accordion__summary[aria-expanded='true'] .knr-accordion__marker {
+  transform: rotate(180deg);
+}
+
+.knr-accordion__panel {
+  @include text-body;
+
+  height: auto;
+  overflow: hidden;
+  padding-bottom: 20px;
+  transition:
+    content-visibility 0.3s allow-discrete,
+    height 0.3s ease,
+    padding-bottom 0.3s ease;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+// le niveau de titre depend de la page, la regle ne doit pas en dependre
+.knr-accordion__item:has([aria-expanded='false']) .knr-accordion__panel {
+  content-visibility: hidden;
+  height: 0;
+  padding-bottom: 0;
+}

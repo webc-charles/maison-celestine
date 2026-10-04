@@ -1,0 +1,32 @@
+@use '../mixins/text' as *;
+
+.knr-price {
+  display: grid;
+}
+
+.knr-price__row {
+  align-items: baseline;
+  display: flex;
+  gap: 4px;
+}
+
+.knr-price__current {
+  @include text-heading;
+}
+
+.knr-price--compact .knr-price__current {
+  @include text-lead;
+}
+
+.knr-price__compare {
+  @include text-body;
+
+  color: rgb(0 0 0 / 24%);
+}
+
+.knr-price__unit {
+  @include text-body;
+
+  color: var(--color-gold);
+  min-height: 22px;
+}

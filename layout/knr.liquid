@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+  <head>
+    {%- if settings.favicon != blank -%}
+      <link
+        rel="icon"
+        type="image/png"
+        href="{{ settings.favicon | image_url: width: 32, height: 32 }}"
+      >
+    {%- endif -%}
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="canonical" href="{{ canonical_url }}">
+
+    <title>
+      {{ page_title }}
+      {% if current_tags %} &ndash; {{ current_tags | join: ', ' }}{% endif %}
+      {% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}
+    </title>
+
+    {%- if page_description -%}
+      <meta name="description" content="{{ page_description | escape }}">
+    {%- endif -%}
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap">
+
+    {%- render 'stylesheets' -%}
+    {%- render 'scripts' -%}
+    {%- render 'theme-styles-variables' -%}
+    {%- render 'color-palette' -%}
+    {%- render 'theme-drawer-styles' -%}
+
+    {{ 'knr-root.css' | asset_url | stylesheet_tag }}
+    {{ 'knr-base.css' | asset_url | stylesheet_tag }}
+    {{ 'knr-components.css' | asset_url | stylesheet_tag }}
+
+    {{ content_for_header }}
+
+    <script src="{{ 'knr.js' | asset_url }}" defer></script>
+  </head>
+
+  {%- capture header_theme -%}{%- render 'knr-page-header-theme' -%}{%- endcapture -%}
+  {%- capture header_overlay -%}{%- render 'knr-page-header-overlay' -%}{%- endcapture -%}
+
+  {%- liquid
+    assign page_classes = 'knr-page knr-theme-' | append: header_theme | strip
+    if header_overlay contains 'true'
+      assign page_classes = page_classes | append: ' knr-page--header-overlay'
+    endif
+  -%}
+  <body class="{{ page_classes }}">
+    <a class="knr-skip-link" href="#MainContent">{{ 'accessibility.skip_to_text' | t }}</a>
+
+    {% section 'knr-announcement-bar' %}
+
+    {% section 'knr-page-header' %}
+
+    <main class="knr-page-main" id="MainContent">
+      {{ content_for_layout }}
+    </main>
+
+    <footer class="knr-page-footer">
+      {% section 'knr-reassurance' %}
+      {% section 'knr-footer-links' %}
+      {% section 'knr-footer-logo' %}
+    </footer>
+
+    {% render 'cart-drawer', render_wrapper: true %}
+    {% render 'theme-drawer' %}
+
+    {% if settings.quick_add or settings.mobile_quick_add %}
+      {% render 'quick-add-modal' %}
+    {% endif %}
+  </body>
+</html>

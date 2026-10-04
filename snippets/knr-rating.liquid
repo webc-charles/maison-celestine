@@ -1,0 +1,18 @@
+{%- liquid
+  assign rounded = score | round
+-%}
+<div class="knr-rating">
+  <p class="knr-rating__stars" role="img" aria-label="{{ score }}/5">
+    {%- for index in (1..5) -%}
+      <span class="knr-rating__star{% if index > rounded %} knr-rating__star--empty{% endif %}">
+        {% render 'knr-icon', name: 'star', size: 12 %}
+      </span>
+    {%- endfor -%}
+    {%- if label != blank -%}
+      <span class="knr-rating__label">{{ label }}</span>
+    {%- endif -%}
+  </p>
+  {%- if count != blank -%}
+    <p class="knr-rating__count">{{ count }}</p>
+  {%- endif -%}
+</div>

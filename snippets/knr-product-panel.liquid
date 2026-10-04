@@ -1,0 +1,179 @@
+{%- liquid
+  assign meta = product.metafields.knr
+  assign variant = product.selected_or_first_available_variant
+  assign related = section.settings.related_collection
+  comment
+    Le fil d'Ariane suit la categorie, pas la liste de ventes croisees.
+    Une collection qui declare un parent gagne : c'est le niveau le plus fin.
+  endcomment
+  assign trail = collection
+  if trail == blank
+    for item in product.collections
+      if item.handle == 'frontpage' or item.id == related.id
+        continue
+      endif
+      if item.metafields.knr.breadcrumb_parent.value != blank
+        assign trail = item
+        break
+      endif
+      if trail == blank
+        assign trail = item
+      endif
+    endfor
+  endif
+  assign sold_out = false
+  unless variant.available
+    assign sold_out = true
+  endunless
+
+  assign rating = product.metafields.reviews.rating.value.rating | times: 1.0 | round: 1
+  assign rating_count = product.metafields.reviews.rating_count.value
+
+  assign rating_label = section.settings.rating_label | replace: '[count]', rating_count
+-%}
+
+<div class="knr-product-panel">
+  <div class="knr-product-panel__inner" data-knr-variants>
+    {% render 'knr-breadcrumb', collection: trail, label: section.settings.breadcrumb_label %}
+
+    <div class="knr-product-panel__intro">
+      {% render 'knr-badges', badges: meta.hero_badges.value, class: 'knr-product-panel__badges' %}
+
+      <div class="knr-product-panel__heading">
+        <h1 class="knr-product-panel__title">{{ product.title }}</h1>
+        {%- if rating_count > 0 -%}
+          {% render 'knr-rating', score: rating, label: rating, count: rating_label %}
+        {%- endif -%}
+      </div>
+
+      {%- if meta.hero_panel_composition_scores.value.size > 0 -%}
+        <p class="knr-product-panel__scores">
+          {%- for score in meta.hero_panel_composition_scores.value -%}
+            {%- assign value = score | split: ' ' | last -%}
+            {%- assign label = score | remove_last: value | strip -%}
+            <span><b class="knr-product-panel__score-name">{{ label }}</b> {{ value }}</span>
+            {%- unless forloop.last %}<span class="knr-product-panel__score-separator" aria-hidden="true"></span>{% endunless -%}
+          {%- endfor -%}
+        </p>
+      {%- endif -%}
+
+      <div class="knr-product-panel__description">{{ product.description }}</div>
+    </div>
+
+    <div class="knr-product-panel__buy">
+      {% render 'knr-variant-picker', product: product, scope: 'panel' %}
+      {% render 'knr-price', variant: variant, unit_label: section.settings.unit_price_label %}
+
+      {% render 'knr-variants-data', product: product, unit_label: section.settings.unit_price_label %}
+    </div>
+
+    <div class="knr-product-panel__cart">
+      <product-form-component
+        data-section-id="{{ section.id }}"
+        data-product-id="{{ product.id }}"
+        data-product-url="{{ product.url }}"
+        data-quantity-default="1"
+        on:submit="/handleSubmit"
+      >
+        <div class="visually-hidden" aria-live="assertive" role="status" aria-atomic="true" ref="liveRegion"></div>
+        {%- form 'product', product, class: 'knr-product-panel__form', data-type: 'add-to-cart-form' -%}
+          <input type="hidden" name="id" ref="variantId" value="{{ variant.id }}">
+          <add-to-cart-component ref="addToCartButtonContainer">
+            <button
+              class="knr-button knr-button--filled knr-button--medium knr-product-panel__submit"
+              type="submit"
+              name="add"
+              ref="addToCartButton"
+              on:click="/handleClick"
+              data-knr-cart-button
+              {% if sold_out %}disabled{% endif %}
+            >
+              <span class="knr-button__label">{{ section.settings.add_to_cart_label }}</span>
+            </button>
+          </add-to-cart-component>
+        {%- endform -%}
+      </product-form-component>
+
+      {%- liquid
+        assign notices = section.blocks | where: 'type', 'notice'
+        assign notice_count = notices.size
+        if meta.hero_panel_availability_notice != blank
+          assign notice_count = notice_count | plus: 1
+        endif
+      -%}
+
+      {%- if notice_count > 0 -%}
+        <div class="knr-product-panel__notices" data-knr-rotator>
+          {%- if meta.hero_panel_availability_notice != blank -%}
+            <p class="knr-product-panel__notice" data-knr-rotator-message>{{ meta.hero_panel_availability_notice.value }}</p>
+          {%- endif -%}
+
+          {%- for block in notices -%}
+            <p
+              class="knr-product-panel__notice"
+              data-knr-rotator-message
+              {% if forloop.first == false or meta.hero_panel_availability_notice != blank %}inert{% endif %}
+              {{ block.shopify_attributes }}>{{ block.settings.text }}</p>
+          {%- endfor -%}
+
+          {%- if notice_count > 1 -%}
+            <span class="knr-steps">
+              {%- for index in (1..notice_count) -%}
+                <button
+                  class="knr-steps__step{% if forloop.first %} knr-steps__step--on{% endif %}"
+                  type="button"
+                  aria-current="{% if forloop.first %}true{% else %}false{% endif %}"
+                  data-knr-rotator-step>
+                  <span class="knr-visually-hidden">{{ section.settings.notice_label | replace: '[index]', index }}</span>
+                </button>
+              {%- endfor -%}
+            </span>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="knr-accordion">
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign field = meta[block.settings.metafield]
+            assign content = block.settings.fallback
+            if field != blank
+              capture content
+                echo field | metafield_tag
+              endcapture
+            endif
+          -%}
+          {%- if content != blank -%}
+            {% render 'knr-accordion-item',
+              group: 'product-details',
+              index: forloop.index,
+              title: block.settings.title,
+              content: content,
+              open: forloop.first %}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    {%- if related != blank and related.products.size > 0 -%}
+      <div class="knr-product-panel__related">
+        <div class="knr-product-panel__related-header">
+          <h2 class="knr-product-panel__related-title">{{ section.settings.related_title }}</h2>
+          <a class="knr-button knr-button--small knr-button--square" href="{{ related.url }}" aria-label="{{ section.settings.related_title | escape }}">
+            {% render 'knr-icon', name: 'arrow-right', size: 16 %}
+          </a>
+        </div>
+        <ul class="knr-product-panel__related-list" data-knr-drag>
+          {%- for card_product in related.products limit: 7 -%}
+            {%- comment -%} la collection contient aussi le produit affiche {%- endcomment -%}
+            {%- unless card_product.id == product.id -%}
+              <li>{% render 'knr-product-card', card_product: card_product %}</li>
+            {%- endunless -%}
+          {%- endfor -%}
+        </ul>
+      </div>
+    {%- endif -%}
+  </div>
+</div>

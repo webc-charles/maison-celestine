@@ -1,0 +1,24 @@
+@use '../mixins/mq' as *;
+
+.knr-progress {
+  background: var(--knr-progress-track, var(--color-sand));
+  display: block;
+  height: 0.8px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 97.5px;
+
+  @include mq-md {
+    display: none;
+  }
+}
+
+.knr-progress__fill {
+  background: var(--knr-progress-ink, var(--color-ink));
+  display: block;
+  transition: background-color 0.25s ease;
+  height: 1px;
+  left: var(--knr-progress-offset, 0%);
+  position: relative;
+  width: var(--knr-progress, 25%);
+}

@@ -1,0 +1,86 @@
+@use '../mixins/text' as *;
+
+.knr-product-card {
+  display: grid;
+  gap: 8px;
+}
+
+.knr-product-card__media {
+  display: block;
+  position: relative;
+}
+
+.knr-product-card__image {
+  aspect-ratio: 159 / 208;
+  object-fit: cover;
+  width: 100%;
+}
+
+.knr-product-card__link {
+  display: block;
+}
+
+.knr-product-card__add {
+  display: block;
+}
+
+.knr-product-card__button.knr-button--loading {
+  position: absolute;
+}
+
+.knr-product-card__button.knr-button--loading svg {
+  opacity: 0;
+}
+
+.knr-product-card__button.knr-button--loading::after {
+  height: 10px;
+  left: calc(50% - 5px);
+  top: calc(50% - 5px);
+  width: 10px;
+}
+
+// La maquette veut un carre blanc de 16 px, le doigt demande 24.
+// L'element fait donc 24 et le carre est peint par le pseudo-element :
+// meme rendu, zone cliquable conforme.
+.knr-product-card__button {
+  align-items: center;
+  background: none;
+  border: 0;
+  bottom: 4px;
+  color: var(--color-ink);
+  cursor: pointer;
+  display: flex;
+  height: 24px;
+  justify-content: center;
+  left: 4px;
+  padding: 0;
+  position: absolute;
+  width: 24px;
+}
+
+.knr-product-card__button::before {
+  background: var(--color-white);
+  content: '';
+  inset: 4px;
+  position: absolute;
+}
+
+// le pseudo-element est positionne, il passerait devant l'icone
+.knr-product-card__button .knr-icon {
+  position: relative;
+}
+
+
+.knr-product-card__info {
+  align-items: baseline;
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+.knr-product-card__name,
+.knr-product-card__price {
+  @include text-small;
+}

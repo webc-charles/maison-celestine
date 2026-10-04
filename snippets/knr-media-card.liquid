@@ -1,0 +1,38 @@
+{%- liquid
+  assign image_alt = image.alt | default: title
+  assign image_sizes = sizes | default: '(min-width: 1024px) 33vw, 100vw'
+-%}
+<article class="knr-media-card">
+  {%- capture media -%}
+    {%- if image != blank -%}
+      {{ image | image_url: width: 900 | image_tag: widths: '334, 448, 900', sizes: image_sizes, alt: image_alt, class: 'knr-media-card__image' }}
+    {%- else -%}
+      <span class="knr-media-card__image knr-media-card__image--placeholder"></span>
+    {%- endif -%}
+  {%- endcapture -%}
+
+  {%- if url != blank -%}
+    <a class="knr-media-card__media" href="{{ url }}">{{ media }}</a>
+  {%- else -%}
+    <div class="knr-media-card__media">{{ media }}</div>
+  {%- endif -%}
+
+  <div class="knr-media-card__body">
+    {%- if eyebrow != blank -%}
+      <p class="knr-media-card__eyebrow">{{ eyebrow }}</p>
+    {%- endif -%}
+    <h3 class="knr-media-card__title">
+      {%- if url != blank -%}
+        <a href="{{ url }}">{{ title }}</a>
+      {%- else -%}
+        {{ title }}
+      {%- endif -%}
+    </h3>
+    {%- if text != blank -%}
+      <div class="knr-media-card__text">{{ text }}</div>
+    {%- endif -%}
+    {%- if link_label != blank -%}
+      <a class="knr-media-card__link" href="{{ url | default: '#' }}">{{ link_label }}</a>
+    {%- endif -%}
+  </div>
+</article>

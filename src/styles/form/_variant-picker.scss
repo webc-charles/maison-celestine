@@ -1,0 +1,32 @@
+@use '../mixins/text' as *;
+
+.knr-variant-picker {
+  display: grid;
+}
+
+.knr-variant-picker__label {
+  @include text-body;
+
+  margin-bottom: 16px;
+}
+
+.knr-variant-picker__options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.knr-variant-picker__value {
+  @include text-body;
+
+  cursor: pointer;
+}
+
+.knr-variant-picker__input:checked + .knr-variant-picker__value {
+  border-bottom: 1px solid var(--color-ink);
+}
+
+.knr-variant-picker__input:focus-visible + .knr-variant-picker__value {
+  outline: 1px solid var(--color-ink);
+  outline-offset: 2px;
+}

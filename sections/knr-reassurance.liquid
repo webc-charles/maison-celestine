@@ -1,0 +1,41 @@
+{{ 'knr-reassurance.css' | asset_url | stylesheet_tag }}
+
+{%- if section.blocks.size > 0 -%}
+  <ul class="knr-container knr-reassurance__list" data-knr-drag>
+    {%- for block in section.blocks -%}
+      <li class="knr-reassurance__item" {{ block.shopify_attributes }}>
+        <h2 class="knr-reassurance__title">{{ block.settings.title }}</h2>
+        <p class="knr-reassurance__text">{{ block.settings.text }}</p>
+      </li>
+    {%- endfor -%}
+  </ul>
+
+  {% render 'knr-steps' %}
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Reassurance",
+  "tag": "section",
+  "class": "knr-reassurance",
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Benefit",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

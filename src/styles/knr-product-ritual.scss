@@ -1,0 +1,189 @@
+@use 'mixins/mq' as *;
+@use 'mixins/text' as *;
+
+.knr-product-ritual {
+  position: relative;
+}
+
+.knr-product-ritual__media.knr-container {
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
+}
+
+.knr-product-ritual__media {
+  isolation: isolate;
+  position: relative;
+
+  @include mq-lg {
+    max-width: none;
+    width: 100%;
+  }
+}
+
+.knr-product-ritual__image {
+  display: block;
+  height: 747px;
+  object-fit: cover;
+  width: 100%;
+
+  @include mq-md {
+    height: 720px;
+  }
+}
+
+.knr-product-ritual__overlay {
+  align-content: space-between;
+  display: grid;
+  gap: 24px;
+  inset: 0;
+  padding-top: 80px;
+  padding-bottom: 65px;
+  position: absolute;
+
+  @include mq-md {
+    align-content: center;
+    align-items: center;
+    background: var(--color-veil);
+    column-gap: 0;
+    grid-template-columns: 62.5% minmax(0, 510px);
+    top: 0;
+    bottom: 0;
+    padding-bottom: 0;
+    padding-top: 0;
+  }
+
+  @include mq-lg {
+    max-width: none;
+    padding-left: calc(50% - 720px);
+    padding-right: calc(50% - 720px);
+    width: 100%;
+  }
+}
+
+.knr-product-ritual__intro {
+  display: grid;
+  gap: 8px;
+  justify-items: start;
+}
+
+.knr-product-ritual__rule {
+  background: var(--color-white);
+  height: 1px;
+  width: 16px;
+}
+
+.knr-product-ritual__quote {
+  align-content: start;
+  display: grid;
+  gap: 16px;
+  min-height: 226px;
+
+  @include mq-md {
+    min-height: 0;
+  }
+}
+
+.knr-product-ritual__eyebrow {
+  color: var(--color-white);
+  @include text-body;
+}
+
+.knr-product-ritual__signature {
+  color: var(--color-white);
+  @include text-small;
+}
+
+.knr-product-ritual__statement {
+  color: var(--color-white);
+  font-size: 22px;
+  letter-spacing: -0.04em;
+  line-height: 28px;
+
+  @include mq-md {
+    @include text-title;
+  }
+}
+
+.knr-product-ritual__cart {
+  display: none;
+  justify-items: stretch;
+  padding-top: 24px;
+  padding-bottom: 24px;
+
+  @include mq-md {
+    display: grid;
+    height: 0;
+    justify-items: end;
+    top: -49px;
+    padding-top: 0;
+    padding-bottom: 0;
+    position: relative;
+  }
+}
+
+.knr-product-ritual__card {
+  align-items: center;
+  background: var(--color-white);
+  border: 1px solid var(--color-shell);
+  column-gap: 16px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  padding: 16px;
+  row-gap: 16px;
+
+  @include mq-sm {
+    grid-template-columns: auto 1fr auto;
+    height: 119px;
+    padding: 0 20px 0 7px;
+    row-gap: 0;
+    width: 576px;
+  }
+}
+
+.knr-product-ritual__thumbnail {
+  aspect-ratio: 1;
+  object-fit: cover;
+  width: 80px;
+
+  @include mq-sm {
+    width: 104px;
+  }
+}
+
+.knr-product-ritual__details {
+  align-content: center;
+  display: grid;
+  gap: 7px;
+  justify-items: start;
+}
+
+.knr-product-ritual__details .knr-price {
+  margin-top: 10px;
+}
+
+.knr-product-ritual__name {
+  @include text-label;
+
+  @include mq-sm {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.knr-product-ritual__form {
+  grid-column: 1 / -1;
+
+  @include mq-sm {
+    grid-column: auto;
+  }
+}
+
+.knr-product-ritual__submit {
+  width: 100%;
+
+  @include mq-sm {
+    width: 200px;
+  }
+}

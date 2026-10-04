@@ -1,0 +1,53 @@
+{{ 'knr-faq.css' | asset_url | stylesheet_tag }}
+
+{%- if section.blocks.size > 0 -%}
+  <div class="knr-container">
+    {% render 'knr-section-header', title: section.settings.title, align: 'center' %}
+
+    <div class="knr-faq__list knr-accordion">
+      {%- for block in section.blocks -%}
+        {% render 'knr-accordion-item',
+          group: 'faq',
+          index: forloop.index,
+          title: block.settings.question,
+          content: block.settings.answer,
+          open: forloop.first %}
+      {%- endfor -%}
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "FAQ",
+  "tag": "section",
+  "class": "knr-faq",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Questions fréquentes"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "question",
+      "name": "Question",
+      "limit": 12,
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
