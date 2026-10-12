@@ -1,0 +1,30 @@
+@use '../mixins/mq' as *;
+
+:root {
+  interpolate-size: allow-keywords;
+
+  --page-width: 1440px;
+  --z-hero-image: 1;
+  --z-hero-veil: 2;
+  --z-product-panel: 2;
+  --z-hero-overlay: 3;
+  --z-announcement-bar: 4;
+  --z-header: 5;
+  --z-skip-link: 6;
+}
+
+.page-width-wide,
+.page-width-normal,
+.page-width-narrow,
+.page-width-content {
+  --page-margin: 24px;
+  --page-content-width: 1392px;
+
+  @include mq-xs {
+    --page-content-width: 592px;
+  }
+
+  @include mq-md {
+    --page-content-width: 1392px;
+  }
+}

@@ -1,0 +1,106 @@
+@use 'mixins/mq' as *;
+@use 'mixins/text' as *;
+
+.knr-newsletter {
+  padding-bottom: 64px;
+
+  @include mq-md {
+    padding-top: 120px;
+    padding-bottom: 120px;
+  }
+}
+
+.knr-newsletter__grid {
+  display: grid;
+  gap: 24px;
+
+  @include mq-md {
+    align-items: center;
+    column-gap: 40px;
+    grid-template-columns: minmax(0, 680px) minmax(0, 600px);
+    justify-content: start;
+  }
+}
+
+.knr-newsletter__media {
+  aspect-ratio: 342 / 232;
+
+  @include mq-md {
+    aspect-ratio: 68 / 54;
+  }
+}
+
+.knr-newsletter__image {
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.knr-newsletter__inner {
+  display: grid;
+  gap: 16px;
+}
+
+.knr-newsletter__title {
+  @include text-title;
+
+  @include mq-md {
+    @include text-display;
+  }
+}
+
+.knr-newsletter__form {
+  display: grid;
+  gap: 16px;
+  margin-top: 24px;
+
+  @include mq-xs {
+    border-radius: 2px;
+    border: 1px solid var(--color-sand);
+    gap: 0;
+    grid-template-columns: 1fr 160px;
+    min-height: 48px;
+
+    &:has(.knr-newsletter__input:focus-visible) {
+      outline: 1px solid currentColor;
+      outline-offset: 2px;
+    }
+  }
+}
+
+.knr-newsletter__form .knr-button {
+  @include mq-xs {
+    border-radius: 0 2px 2px 0;
+  }
+}
+
+.knr-newsletter__input {
+  @include text-body;
+
+  background: none;
+  border: 1px solid var(--color-sand);
+  border-radius: 2px;
+  min-height: 48px;
+  padding-left: 24px;
+  padding-right: 24px;
+  width: 100%;
+
+  @include mq-xs {
+    border-radius: 0;
+    border: 0;
+    min-height: 0;
+
+    &:focus-visible {
+      outline: none;
+    }
+  }
+}
+
+.knr-newsletter__message,
+.knr-newsletter__legal {
+  @include text-small;
+}
+
+.knr-newsletter__message {
+  grid-column: 1 / -1;
+}

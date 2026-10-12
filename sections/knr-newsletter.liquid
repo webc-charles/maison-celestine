@@ -1,0 +1,78 @@
+{{ 'knr-newsletter.css' | asset_url | stylesheet_tag }}
+
+<div class="knr-container knr-newsletter__grid">
+  <div class="knr-newsletter__media">
+    {%- if section.settings.image -%}
+      {{ section.settings.image | image_url: width: 1360 | image_tag: widths: '680, 1360', sizes: '(min-width: 1024px) 50vw, 100vw', alt: '', class: 'knr-newsletter__image' }}
+    {%- endif -%}
+  </div>
+
+  <div class="knr-newsletter__inner">
+    <h2 class="knr-newsletter__title">{{ section.settings.title }}</h2>
+
+    {%- form 'customer', class: 'knr-newsletter__form' -%}
+      <input type="hidden" name="contact[tags]" value="newsletter">
+      <label class="knr-visually-hidden" for="knr-newsletter-email">{{ section.settings.placeholder }}</label>
+      <input
+        class="knr-newsletter__input"
+        id="knr-newsletter-email"
+        type="email"
+        name="contact[email]"
+        placeholder="{{ section.settings.placeholder | escape }}"
+        autocomplete="email"
+        required>
+      {% render 'knr-button', label: section.settings.button_label, type: 'submit' %}
+
+      {%- if form.posted_successfully? -%}
+        <p class="knr-newsletter__message">{{ section.settings.success_message }}</p>
+      {%- endif -%}
+    {%- endform -%}
+
+    {%- if section.settings.legal != blank -%}
+      <p class="knr-newsletter__legal">{{ section.settings.legal }}</p>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Newsletter",
+  "tag": "section",
+  "class": "knr-newsletter",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Email placeholder",
+      "default": "E-mail"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button",
+      "default": "S'inscrire"
+    },
+    {
+      "type": "text",
+      "id": "success_message",
+      "label": "Success message",
+      "default": "Merci, votre inscription est enregistrée."
+    },
+    {
+      "type": "textarea",
+      "id": "legal",
+      "label": "Legal notice"
+    }
+  ]
+}
+{% endschema %}

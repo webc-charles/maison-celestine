@@ -1,0 +1,22 @@
+{%- liquid
+  assign value = blank
+
+  case request.page_type
+    when 'product'
+      assign value = product.metafields.knr.page_header_overlay
+    when 'collection'
+      assign value = collection.metafields.knr.page_header_overlay
+    when 'page'
+      assign value = page.metafields.knr.page_header_overlay
+    when 'article'
+      assign value = article.metafields.knr.page_header_overlay
+    when 'blog'
+      assign value = blog.metafields.knr.page_header_overlay
+  endcase
+
+  if value != blank
+    echo value.value
+  else
+    echo settings.knr_header_overlay
+  endif
+-%}

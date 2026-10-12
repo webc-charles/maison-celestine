@@ -1,0 +1,13 @@
+<div class="knr-price{% if compact %} knr-price--compact{% endif %}">
+  <p class="knr-price__row">
+    <span class="knr-price__current" data-knr-price-current>{{ variant.price | money }}</span>
+    {%- unless compact -%}
+      <s class="knr-price__compare" data-knr-price-compare {% if variant.compare_at_price <= variant.price %}hidden{% endif %}>{{ variant.compare_at_price | money }}</s>
+    {%- endunless -%}
+  </p>
+  {%- unless compact -%}
+    <p class="knr-price__unit" data-knr-price-unit {% unless variant.unit_price_measurement %}hidden{% endunless %}>
+      {{- variant.unit_price | money }} {{ unit_label }} {{ variant.unit_price_measurement.reference_value }} {{ variant.unit_price_measurement.reference_unit -}}
+    </p>
+  {%- endunless -%}
+</div>

@@ -1,0 +1,47 @@
+@use '../mixins/mq' as *;
+@use '../mixins/text' as *;
+
+.knr-section-header {
+  align-items: baseline;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: space-between;
+}
+
+.knr-section-header__title {
+  @include text-title;
+}
+
+.knr-section-header__link {
+  @include text-body;
+
+  border-bottom: 1px solid currentcolor;
+  padding-bottom: 1px;
+}
+
+.knr-section-header__description {
+  @include text-lead;
+
+  flex-basis: 100%;
+  max-width: 540px;
+}
+
+.knr-section-header--center {
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.knr-section-header--center .knr-section-header__description {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.knr-section-header--center .knr-section-header__title {
+  @include text-title;
+
+  @include mq-md {
+    @include text-display;
+  }
+}

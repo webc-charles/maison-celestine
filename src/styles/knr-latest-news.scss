@@ -1,0 +1,87 @@
+@use 'mixins/mq' as *;
+@use 'mixins/scroll' as *;
+@use 'mixins/text' as *;
+
+.knr-latest-news {
+  padding-bottom: 64px;
+
+  @include mq-md {
+    padding-bottom: 0;
+  }
+}
+
+.knr-latest-news__list {
+  @include scroll-row;
+
+  display: grid;
+  gap: 8px;
+  grid-auto-columns: 255px;
+  grid-auto-flow: column;
+  margin-left: -24px;
+  margin-right: -24px;
+  margin-top: 40px;
+  padding-left: 24px;
+  padding-right: 24px;
+  scroll-padding-left: 24px;
+
+  @include mq-md {
+    grid-auto-columns: auto;
+    grid-auto-flow: row;
+    grid-template-columns: repeat(4, 1fr);
+    margin-left: 0;
+    margin-right: 0;
+    overflow-x: visible;
+    padding-left: 0;
+    padding-right: 0;
+    scroll-padding-left: 0;
+  }
+}
+
+.knr-latest-news .knr-container {
+  display: grid;
+
+  @include mq-md {
+    display: block;
+  }
+}
+
+.knr-latest-news .knr-section-header {
+  display: contents;
+
+  @include mq-md {
+    display: flex;
+  }
+}
+
+.knr-latest-news .knr-section-header__link {
+  justify-self: center;
+  margin-top: 40px;
+  order: 1;
+
+  @include mq-md {
+    justify-self: auto;
+    margin-top: 0;
+    order: 0;
+  }
+}
+
+.knr-latest-news .knr-progress {
+  margin-top: 40px;
+}
+
+.knr-latest-news .knr-media-card__body {
+  gap: 16px;
+}
+
+.knr-latest-news .knr-media-card__eyebrow {
+  @include text-body;
+
+  &::after {
+    background: var(--color-gold);
+    content: '';
+    display: block;
+    height: 0.8px;
+    margin-top: 8px;
+    width: 16px;
+  }
+}

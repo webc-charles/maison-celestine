@@ -1,0 +1,18 @@
+@use '../mixins/text' as *;
+
+.knr-breadcrumb {
+  @include text-small;
+
+  color: var(--color-gold);
+}
+
+.knr-breadcrumb__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.knr-breadcrumb__item + .knr-breadcrumb__item::before {
+  content: '/';
+  margin-right: 4px;
+}

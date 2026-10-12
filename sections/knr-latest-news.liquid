@@ -1,0 +1,72 @@
+{{ 'knr-latest-news.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign blog = blogs[section.settings.blog]
+  assign articles = blog.articles | reverse
+-%}
+
+{%- if articles.size > 0 -%}
+  <div class="knr-container">
+    {% render 'knr-section-header',
+      title: section.settings.title,
+      link_label: section.settings.link_label,
+      link_url: blog.url %}
+
+    <ul class="knr-latest-news__list" data-knr-drag>
+      {%- for article in articles limit: section.settings.count -%}
+        {%- liquid
+          assign eyebrow = article.metafields.knr.news_card_label.value | default: article.tags.first
+          assign excerpt = article.excerpt_or_content | strip_html | truncatewords: 24
+          assign card_title = article.metafields.knr.news_card_title | default: article.title
+        -%}
+        <li>
+          {% render 'knr-media-card',
+            image: article.image,
+            eyebrow: eyebrow,
+            title: card_title,
+            text: excerpt,
+            url: article.url,
+            sizes: '(min-width: 1024px) 25vw, 70vw' %}
+        </li>
+      {%- endfor -%}
+    </ul>
+
+    {% render 'knr-progress' %}
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Latest news",
+  "tag": "section",
+  "class": "knr-latest-news",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Latest news"
+    },
+    {
+      "type": "blog",
+      "id": "blog",
+      "label": "Blog"
+    },
+    {
+      "type": "range",
+      "id": "count",
+      "label": "Number of articles",
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "Link",
+      "default": "Voir tous les articles"
+    }
+  ]
+}
+{% endschema %}

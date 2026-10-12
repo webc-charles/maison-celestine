@@ -1,0 +1,18 @@
+{%- liquid
+  assign value = blank
+
+  case request.page_type
+    when 'product'
+      assign value = product.metafields.knr.page_header_theme.value
+    when 'collection'
+      assign value = collection.metafields.knr.page_header_theme.value
+    when 'page'
+      assign value = page.metafields.knr.page_header_theme.value
+    when 'article'
+      assign value = article.metafields.knr.page_header_theme.value
+    when 'blog'
+      assign value = blog.metafields.knr.page_header_theme.value
+  endcase
+
+  echo value | default: settings.knr_header_theme | default: 'dark'
+-%}

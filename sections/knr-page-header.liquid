@@ -1,0 +1,151 @@
+{{ 'knr-page-header.css' | asset_url | stylesheet_tag }}
+
+<div class="knr-container knr-page-header__inner">
+  <a class="knr-page-header__logo" href="{{ routes.root_url }}">
+    {%- if section.settings.logo != blank -%}
+      {{ section.settings.logo | image_url: width: 320 | image_tag: widths: '160, 320', alt: shop.name, class: 'knr-page-header__logo-image' }}
+    {%- else -%}
+      {% render 'knr-logo' %}
+      <span class="knr-visually-hidden">{{ shop.name }}</span>
+    {%- endif -%}
+  </a>
+
+  {%- if section.settings.menu != blank -%}
+    <nav class="knr-page-header__nav" aria-label="{{ section.settings.menu_label | escape }}">
+      <ul class="knr-page-header__menu">
+        {%- for link in section.settings.menu.links -%}
+          <li>
+            <a class="knr-page-header__link" href="{{ link.url }}"{% if link.active %} aria-current="page"{% endif %}>{{ link.title }}</a>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </nav>
+  {%- endif -%}
+
+  <div class="knr-page-header__actions">
+    {%- if section.settings.stores_url != blank -%}
+      <a class="knr-button knr-button--ghost knr-button--small knr-button--square" href="{{ section.settings.stores_url }}">
+        {% render 'knr-icon', name: 'pin' %}
+        <span class="knr-visually-hidden">{{ section.settings.stores_label }}</span>
+      </a>
+    {%- endif -%}
+
+    <a class="knr-button knr-button--ghost knr-button--small knr-button--square knr-page-header__account" href="{{ routes.account_url }}">
+      {% render 'knr-icon', name: 'user' %}
+      <span class="knr-visually-hidden">{{ section.settings.account_label }}</span>
+    </a>
+
+    <a class="knr-button knr-button--ghost knr-button--small knr-button--square" href="{{ routes.search_url }}">
+      {% render 'knr-icon', name: 'search' %}
+      <span class="knr-visually-hidden">{{ section.settings.search_label }}</span>
+    </a>
+
+    <a class="knr-button knr-button--ghost knr-button--small knr-button--square knr-page-header__cart" href="{{ routes.cart_url }}">
+      {% render 'knr-icon', name: 'bag' %}
+      <span class="knr-page-header__cart-count" data-knr-cart-count aria-hidden="true">{{ cart.item_count }}</span>
+      <span class="knr-visually-hidden">{{ section.settings.cart_label }} ({{ cart.item_count }})</span>
+    </a>
+
+    <button class="knr-button knr-button--ghost knr-button--small knr-button--square knr-page-header__menu-toggle" type="button" aria-haspopup="dialog" aria-controls="knr-page-header-menu" data-knr-drawer-open>
+      {% render 'knr-icon', name: 'menu' %}
+      <span class="knr-visually-hidden">{{ section.settings.menu_toggle_label }}</span>
+    </button>
+  </div>
+</div>
+
+{%- if section.settings.menu != blank -%}
+  <dialog class="knr-page-header__drawer" id="knr-page-header-menu" aria-label="{{ section.settings.menu_toggle_label | escape }}" data-knr-drawer>
+    <div class="knr-page-header__drawer-top">
+      <a class="knr-page-header__logo" href="{{ routes.root_url }}">
+        {%- if section.settings.logo != blank -%}
+          {{ section.settings.logo | image_url: width: 320 | image_tag: widths: '160, 320', alt: shop.name, class: 'knr-page-header__logo-image' }}
+        {%- else -%}
+          {% render 'knr-logo' %}
+          <span class="knr-visually-hidden">{{ shop.name }}</span>
+        {%- endif -%}
+      </a>
+
+      <button
+        class="knr-button knr-button--ghost knr-button--small knr-button--square knr-page-header__drawer-close"
+        type="button"
+        aria-label="{{ section.settings.menu_close_label | escape }}"
+        data-knr-drawer-close>
+        {% render 'knr-icon', name: 'close' %}
+      </button>
+    </div>
+
+    <ul class="knr-page-header__drawer-menu">
+      {%- for link in section.settings.menu.links -%}
+        <li><a class="knr-page-header__drawer-link" href="{{ link.url }}">{{ link.title }}</a></li>
+      {%- endfor -%}
+      <li><a class="knr-page-header__drawer-link" href="{{ routes.account_url }}">{{ section.settings.account_label }}</a></li>
+    </ul>
+  </dialog>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Header",
+  "tag": "header",
+  "class": "knr-page-header",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu"
+    },
+    {
+      "type": "text",
+      "id": "menu_label",
+      "label": "Menu label",
+      "default": "Navigation principale"
+    },
+    {
+      "type": "text",
+      "id": "menu_toggle_label",
+      "label": "Menu button label",
+      "default": "Ouvrir le menu"
+    },
+    {
+      "type": "text",
+      "id": "menu_close_label",
+      "label": "Close menu button",
+      "default": "Fermer le menu"
+    },
+    {
+      "type": "url",
+      "id": "stores_url",
+      "label": "Store locator link"
+    },
+    {
+      "type": "text",
+      "id": "stores_label",
+      "label": "Store locator label",
+      "default": "Points de vente"
+    },
+    {
+      "type": "text",
+      "id": "account_label",
+      "label": "Account label",
+      "default": "Mon compte"
+    },
+    {
+      "type": "text",
+      "id": "search_label",
+      "label": "Search label",
+      "default": "Rechercher"
+    },
+    {
+      "type": "text",
+      "id": "cart_label",
+      "label": "Cart label",
+      "default": "Panier"
+    }
+  ]
+}
+{% endschema %}

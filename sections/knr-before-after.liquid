@@ -1,0 +1,130 @@
+{{ 'knr-before-after.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign reviews = product.metafields.judgeme.review_widget_data.value.reviews
+  assign testimonials = reviews | where: 'pinned'
+-%}
+
+  <div class="knr-container">
+  {% render 'knr-section-header',
+    title: section.settings.title,
+    description: section.settings.description,
+    align: 'center' %}
+
+  {%- if section.settings.before_image and section.settings.after_image -%}
+    <div class="knr-before-after__compare" style="--knr-reveal: 50%" data-knr-reveal>
+      <figure class="knr-before-after__frame">
+        {{ section.settings.after_image | image_url: width: 2560 | image_tag: widths: '750, 1280, 2560', sizes: '(min-width: 1024px) 80vw, 100vw', alt: section.settings.after_label, class: 'knr-before-after__image' }}
+        <figcaption class="knr-before-after__label knr-before-after__label--after">{{ section.settings.after_label }}</figcaption>
+      </figure>
+
+      <figure class="knr-before-after__frame knr-before-after__frame--before">
+        {{ section.settings.before_image | image_url: width: 2560 | image_tag: widths: '750, 1280, 2560', sizes: '(min-width: 1024px) 80vw, 100vw', alt: section.settings.before_label, class: 'knr-before-after__image' }}
+        <figcaption class="knr-before-after__label">{{ section.settings.before_label }}</figcaption>
+      </figure>
+
+      <div class="knr-before-after__handle" aria-hidden="true">
+        <span class="knr-before-after__knob">{% render 'knr-icon', name: 'grip' %}</span>
+      </div>
+
+      <label class="knr-visually-hidden" for="knr-reveal">{{ section.settings.slider_label }}</label>
+      <input class="knr-before-after__slider" id="knr-reveal" type="range" min="0" max="100" value="50" step="1">
+    </div>
+  {%- endif -%}
+
+  {%- if testimonials.size > 0 -%}
+    <ul
+      class="knr-before-after__testimonials"
+      tabindex="0"
+      aria-label="{{ section.settings.testimonials_label | default: 'Témoignages' | escape }}"
+      data-knr-drag
+    >
+      {%- for testimonial in testimonials -%}
+        <li class="knr-before-after__testimonial">
+          {% render 'knr-rating', score: testimonial.rating, label: testimonial.reviewer_name %}
+          <blockquote class="knr-before-after__quote">{{ testimonial.body }}</blockquote>
+        </li>
+      {%- endfor -%}
+    </ul>
+
+    <div class="knr-before-after__controls" data-knr-carousel>
+      <button class="knr-button knr-button--ghost knr-button--medium knr-button--square" type="button" aria-label="{{ section.settings.previous_label | escape }}" data-knr-carousel-previous>
+        {% render 'knr-icon', name: 'arrow-left' %}
+      </button>
+      <button class="knr-button knr-button--ghost knr-button--medium knr-button--square" type="button" aria-label="{{ section.settings.next_label | escape }}" data-knr-carousel-next>
+        {% render 'knr-icon', name: 'arrow-right' %}
+      </button>
+    </div>
+  {%- endif -%}
+  </div>
+
+{% schema %}
+{
+  "name": "Before / after",
+  "tag": "section",
+  "class": "knr-before-after",
+  "settings": [
+    {
+      "type": "text",
+      "id": "testimonials_label",
+      "label": "Testimonials row name for screen readers",
+      "default": "Témoignages"
+    },
+    {
+      "type": "paragraph",
+      "content": "Testimonials are pulled from Judge.me. To show one here, pin the review in Judge.me (Add tags › Pin review on the Reviews Widget). Pinned reviews of the product being viewed appear below the comparison, up to five. Unpin to remove. Changes take a few minutes to reach the storefront."
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Ce que disent nos clientes"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description"
+    },
+    {
+      "type": "image_picker",
+      "id": "before_image",
+      "label": "Before image"
+    },
+    {
+      "type": "image_picker",
+      "id": "after_image",
+      "label": "After image"
+    },
+    {
+      "type": "text",
+      "id": "before_label",
+      "label": "Before caption",
+      "default": "Before"
+    },
+    {
+      "type": "text",
+      "id": "after_label",
+      "label": "After caption",
+      "default": "After"
+    },
+    {
+      "type": "text",
+      "id": "slider_label",
+      "label": "Slider label",
+      "default": "Comparer avant et après"
+    },
+    {
+      "type": "text",
+      "id": "previous_label",
+      "label": "Previous testimonial",
+      "default": "Témoignage précédent"
+    },
+    {
+      "type": "text",
+      "id": "next_label",
+      "label": "Next testimonial",
+      "default": "Témoignage suivant"
+    }
+  ]
+}
+{% endschema %}

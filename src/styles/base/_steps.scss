@@ -1,0 +1,33 @@
+.knr-steps {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.knr-steps__step {
+  background: var(--color-sand);
+  height: 1px;
+  width: 16px;
+
+  &:is(button) {
+    border: 0;
+    cursor: pointer;
+    padding: 0;
+    position: relative;
+    transition: background-color 0.15s ease;
+
+    &::before {
+      content: '';
+      inset: -11px 0;
+      position: absolute;
+    }
+
+    &:hover {
+      background: var(--color-ink);
+    }
+  }
+}
+
+.knr-steps__step--on {
+  background: var(--color-ink);
+}

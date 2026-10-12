@@ -1,0 +1,17 @@
+{
+  "name": "maison-celestine",
+  "private": true,
+  "scripts": {
+    "dev": "./dev.sh",
+    "build": "pnpm build:css && pnpm build:js",
+    "push": "pnpm build && shopify theme push --environment live",
+    "build:css": "sass src/styles:assets --load-path=src/styles --no-source-map --style=compressed",
+    "build:js": "esbuild src/scripts/index.js --bundle --minify --keep-names --target=es2022 --outfile=assets/knr.js",
+    "watch:css": "sass --watch src/styles:assets --load-path=src/styles --no-source-map",
+    "watch:js": "esbuild src/scripts/index.js --bundle --keep-names --target=es2022 --outfile=assets/knr.js --watch"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "sass": "^1.104.0"
+  }
+}

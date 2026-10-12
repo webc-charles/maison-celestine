@@ -1,0 +1,119 @@
+{{ 'knr-product-ritual.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign variant = product.selected_or_first_available_variant
+  assign meta = product.metafields.knr
+  assign thumb_focus = meta.ritual_thumbnail_focal_point.value
+  if thumb_focus != blank
+    assign thumb_style = 'object-position: ' | append: thumb_focus
+  endif
+  assign sold_out = false
+  unless variant.available
+    assign sold_out = true
+  endunless
+-%}
+
+<div class="knr-container knr-product-ritual__media">
+  {%- if section.settings.image -%}
+    {%- assign ritual_mobile = section.settings.image_mobile | default: section.settings.image -%}
+    <picture>
+      <source
+        media="(min-width: 1024px)"
+        srcset="{{ section.settings.image | image_url: width: 1440 }} 1440w, {{ section.settings.image | image_url: width: 2880 }} 2880w"
+        sizes="100vw">
+      {%- assign ritual_height = ritual_mobile.height | times: 780 | divided_by: ritual_mobile.width -%}
+      <img
+        class="knr-product-ritual__image"
+        src="{{ ritual_mobile | image_url: width: 780 }}"
+        srcset="{{ ritual_mobile | image_url: width: 1188 }} 1188w, {{ ritual_mobile | image_url: width: 2376 }} 2376w"
+        sizes="100vw"
+        width="780"
+        height="{{ ritual_height }}"
+        alt="">
+    </picture>
+  {%- endif -%}
+
+  <div class="knr-container knr-product-ritual__overlay">
+    {%- if section.settings.eyebrow != blank -%}
+      <div class="knr-product-ritual__intro">
+        <p class="knr-product-ritual__eyebrow">{{ section.settings.eyebrow }}</p>
+        <span class="knr-product-ritual__rule" aria-hidden="true"></span>
+      </div>
+    {%- endif -%}
+
+    <div class="knr-product-ritual__quote">
+      <p class="knr-product-ritual__statement">{{ section.settings.statement }}</p>
+      {%- if section.settings.signature != blank -%}
+        <p class="knr-product-ritual__signature">{{ section.settings.signature }}</p>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+<div class="knr-container knr-product-ritual__cart" data-knr-variants>
+  <div class="knr-product-ritual__card">
+    {%- if product.featured_image -%}
+      {{ product.featured_image | image_url: width: 320 | image_tag: widths: '104, 208, 320', alt: product.title, class: 'knr-product-ritual__thumbnail', style: thumb_style }}
+    {%- endif -%}
+
+    <div class="knr-product-ritual__details">
+      <p class="knr-product-ritual__name">{{ product.title }}</p>
+      {% render 'knr-variant-picker', product: product, scope: 'ritual', compact: true %}
+      {% render 'knr-price', variant: variant, compact: true %}
+      {% render 'knr-variants-data', product: product %}
+    </div>
+
+    {%- form 'product', product, class: 'knr-product-ritual__form' -%}
+      <input type="hidden" name="id" value="{{ variant.id }}">
+      {% render 'knr-button',
+        label: section.settings.add_to_cart_label,
+        type: 'submit',
+        name: 'add',
+        size: 'large',
+        class: 'knr-product-ritual__submit',
+        disabled: sold_out %}
+    {%- endform -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Product — ritual",
+  "tag": "section",
+  "class": "knr-product-ritual",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Image, mobile",
+      "info": "Portrait crop shown below 1024px. Falls back to the image above."
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow"
+    },
+    {
+      "type": "textarea",
+      "id": "statement",
+      "label": "Text"
+    },
+    {
+      "type": "text",
+      "id": "signature",
+      "label": "Signature"
+    },
+    {
+      "type": "text",
+      "id": "add_to_cart_label",
+      "label": "Add to cart button",
+      "default": "Ajouter au panier"
+    }
+  ]
+}
+{% endschema %}

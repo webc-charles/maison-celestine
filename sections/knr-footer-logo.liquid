@@ -1,0 +1,136 @@
+{{ 'knr-footer-logo.css' | asset_url | stylesheet_tag }}
+
+<div class="knr-footer-logo__signature">
+  <p class="knr-footer-logo__wordmark">{{ section.settings.wordmark | default: shop.name }}</p>
+</div>
+
+<div class="knr-container knr-footer-logo__bar">
+  <div class="knr-footer-logo__selectors">
+    {%- if section.settings.show_country and localization.available_countries.size > 1 -%}
+      {%- form 'localization' -%}
+        <input type="hidden" name="return_to" value="{{ request.path }}">
+        <label class="knr-visually-hidden" for="knr-country">{{ section.settings.country_label }}</label>
+        <span class="knr-footer-logo__field">
+          <span class="knr-footer-logo__value" aria-hidden="true">
+            {{ localization.country.name }} ({{ localization.country.currency.symbol }})
+          </span>
+          {% render 'knr-icon', name: 'chevron-down' %}
+          <select class="knr-footer-logo__select" id="knr-country" name="country_code" data-knr-localization>
+            {%- for country in localization.available_countries -%}
+              <option value="{{ country.iso_code }}"{% if country.iso_code == localization.country.iso_code %} selected{% endif %}>
+                {{ country.name }} ({{ country.currency.symbol }})
+              </option>
+            {%- endfor -%}
+          </select>
+        </span>
+        <noscript>{% render 'knr-button', label: section.settings.country_label, type: 'submit', kind: 'outlined' %}</noscript>
+      {%- endform -%}
+    {%- endif -%}
+
+    {%- if section.settings.show_language and localization.available_languages.size > 1 -%}
+      {%- form 'localization' -%}
+        <input type="hidden" name="return_to" value="{{ request.path }}">
+        <label class="knr-visually-hidden" for="knr-locale">{{ section.settings.language_label }}</label>
+        <span class="knr-footer-logo__field">
+          <span class="knr-footer-logo__value" aria-hidden="true">
+            {{ localization.language.endonym_name | capitalize }}
+          </span>
+          {% render 'knr-icon', name: 'chevron-down' %}
+          <select class="knr-footer-logo__select" id="knr-locale" name="locale_code" data-knr-localization>
+            {%- for language in localization.available_languages -%}
+              <option value="{{ language.iso_code }}"{% if language.iso_code == localization.language.iso_code %} selected{% endif %}>
+                {{ language.endonym_name | capitalize }}
+              </option>
+            {%- endfor -%}
+          </select>
+        </span>
+        <noscript>{% render 'knr-button', label: section.settings.language_label, type: 'submit', kind: 'outlined' %}</noscript>
+      {%- endform -%}
+    {%- endif -%}
+  </div>
+
+  <p class="knr-footer-logo__copyright">&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. {{ section.settings.rights }}</p>
+
+  {%- if section.blocks.size > 0 -%}
+    <ul class="knr-footer-logo__social">
+      {%- for block in section.blocks -%}
+        <li {{ block.shopify_attributes }}>
+          <a class="knr-footer-logo__social-link" href="{{ block.settings.url }}">
+            <span class="knr-visually-hidden">{{ block.settings.name }}</span>
+            {{ block.settings.icon }}
+          </a>
+        </li>
+      {%- endfor -%}
+    </ul>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Footer — signature",
+  "tag": "section",
+  "class": "knr-footer-logo",
+  "settings": [
+    {
+      "type": "text",
+      "id": "wordmark",
+      "label": "Signature"
+    },
+    {
+      "type": "text",
+      "id": "rights",
+      "label": "Rights notice",
+      "default": "Tous droits réservés."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_country",
+      "label": "Show country picker",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_language",
+      "label": "Show language picker",
+      "info": "Leave off until the store has real translations: Shopify lists every published language even when its content is untranslated.",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "country_label",
+      "label": "Country label",
+      "default": "Pays"
+    },
+    {
+      "type": "text",
+      "id": "language_label",
+      "label": "Language label",
+      "default": "Langue"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "social",
+      "name": "Social network",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link"
+        },
+        {
+          "type": "html",
+          "id": "icon",
+          "label": "SVG icon"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

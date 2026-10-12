@@ -1,0 +1,235 @@
+{%- assign size = size | default: 16 -%}
+
+{%- case name -%}
+  {%- when 'pin' -%}
+    <svg
+      class="knr-icon"
+      width="{{ size }}"
+      height="{{ size }}"
+      viewBox="0 0 16 16"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.33"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path d="M8 8.667C9.105 8.667 10 7.771 10 6.667C10 5.562 9.105 4.667 8 4.667C6.895 4.667 6 5.562 6 6.667C6 7.771 6.895 8.667 8 8.667Z"/>
+      <path d="M8 14.667C10.667 12 13.333 9.612 13.333 6.667C13.333 3.721 10.945 1.333 8 1.333C5.054 1.333 2.667 3.721 2.667 6.667C2.667 9.612 5.333 12 8 14.667Z"/>
+    </svg>
+  {%- when 'user' -%}
+    <svg
+      class="knr-icon"
+      width="{{ size }}"
+      height="{{ size }}"
+      viewBox="0 0 18 18"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.5"
+      stroke-linecap="square"
+      stroke-linejoin="round"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path d="M2.25 15C4.002 13.142 6.38 12 9 12C11.62 12 13.998 13.142 15.75 15M12.375 5.625C12.375 7.489 10.864 9 9 9C7.136 9 5.625 7.489 5.625 5.625C5.625 3.761 7.136 2.25 9 2.25C10.864 2.25 12.375 3.761 12.375 5.625Z"/>
+    </svg>
+  {%- when 'search' -%}
+    <svg
+      class="knr-icon"
+      width="{{ size }}"
+      height="{{ size }}"
+      viewBox="0 0 16 16"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.33"
+      stroke-linecap="square"
+      stroke-linejoin="round"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path d="M14 14L11.1 11.1M12.667 7.333C12.667 10.279 10.279 12.667 7.333 12.667C4.388 12.667 2 10.279 2 7.333C2 4.388 4.388 2 7.333 2C10.279 2 12.667 4.388 12.667 7.333Z"/>
+    </svg>
+  {%- when 'bag' -%}
+    <svg
+      class="knr-icon"
+      width="{{ size }}"
+      height="{{ size }}"
+      viewBox="0 0 16 16"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.33"
+      stroke-linecap="square"
+      stroke-linejoin="round"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path d="M10.667 4.667C10.667 5.374 10.386 6.052 9.886 6.552C9.386 7.052 8.707 7.333 8 7.333C7.293 7.333 6.614 7.052 6.114 6.552C5.614 6.052 5.333 5.374 5.333 4.667M2 2.711L2 12.533C2 13.28 2 13.653 2.145 13.939C2.273 14.19 2.477 14.393 2.728 14.521C3.013 14.667 3.387 14.667 4.133 14.667L11.867 14.667C12.613 14.667 12.987 14.667 13.272 14.521C13.523 14.393 13.727 14.19 13.855 13.939C14 13.653 14 13.28 14 12.533V2.711C14 2.515 14 2.416 13.973 2.337C13.923 2.192 13.808 2.077 13.663 2.027C13.584 2 13.485 2 13.289 2H2.711C2.515 2 2.416 2 2.337 2.027C2.192 2.077 2.077 2.192 2.027 2.337C2 2.416 2 2.515 2 2.711Z"/>
+    </svg>
+  {%- when 'chevron-down' -%}
+    <svg
+      class="knr-icon"
+      width="10"
+      height="6"
+      viewBox="0 0 10 6"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="square"
+      stroke-linejoin="round"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path d="M1 1 5 5 9 1"/>
+    </svg>
+  {%- when 'chevron-left' -%}
+    <svg
+      class="knr-icon"
+      width="6"
+      height="10"
+      viewBox="0 0 6 10"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="square"
+      stroke-linejoin="round"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path d="M5 1 1 5 5 9"/>
+    </svg>
+  {%- when 'chevron-right' -%}
+    <svg
+      class="knr-icon"
+      width="6"
+      height="10"
+      viewBox="0 0 6 10"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="square"
+      stroke-linejoin="round"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path d="M1 1 5 5 1 9"/>
+    </svg>
+  {%- when 'menu' -%}
+    <svg
+      class="knr-icon"
+      width="16"
+      height="5"
+      viewBox="0 0 16 5"
+      fill="currentColor"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <rect width="16" height="1"/>
+      <rect y="4" width="16" height="1"/>
+    </svg>
+  {%- when 'star' -%}
+    <svg
+      class="knr-icon"
+      width="{{ size }}"
+      height="{{ size }}"
+      viewBox="0 0 12 12"
+      fill="currentColor"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path d="M6 1.51L7.41 4.6L10.71 4.97L8.26 7.22L8.92 10.49L6 8.9L3.08 10.49L3.74 7.22L1.29 4.97L4.59 4.6Z"/>
+    </svg>
+  {%- when 'plus' -%}
+    <svg
+      class="knr-icon"
+      width="{{ size }}"
+      height="{{ size }}"
+      viewBox="0 0 8 8"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path d="M4 0v8M0 4h8"/>
+    </svg>
+  {%- when 'close' -%}
+    <svg
+      class="knr-icon"
+      width="{{ size }}"
+      height="{{ size }}"
+      viewBox="0 0 16 16"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.33"
+      stroke-linecap="square"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path d="M3 3 13 13M13 3 3 13"/>
+    </svg>
+  {%- when 'filter' -%}
+    <svg
+      class="knr-icon"
+      width="14.3"
+      height="9.8"
+      viewBox="0 0 14.3 9.8"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="0.8"
+      stroke-linecap="square"
+      stroke-linejoin="round"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path d="M2.65 4.9h9M0.4 0.4h13.5M5.15 9.4h4.5"/>
+    </svg>
+  {%- when 'grip' -%}
+    <svg
+      class="knr-icon"
+      width="12"
+      height="11"
+      viewBox="0 0 12 11"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="square"
+      stroke-linejoin="round"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path d="M1 1v9M6 1v9M11 1v9"/>
+    </svg>
+  {%- when 'arrow-left' -%}
+    <svg
+      class="knr-icon"
+      width="{{ size }}"
+      height="{{ size }}"
+      viewBox="0 0 16 16"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="square"
+      stroke-linejoin="round"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path d="M10 4 6 8 10 12"/>
+    </svg>
+  {%- when 'arrow-right' -%}
+    <svg
+      class="knr-icon"
+      width="{{ size }}"
+      height="{{ size }}"
+      viewBox="0 0 16 16"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="square"
+      stroke-linejoin="round"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path d="M6 4 10 8 6 12"/>
+    </svg>
+{%- endcase -%}

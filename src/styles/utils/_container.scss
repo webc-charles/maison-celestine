@@ -1,0 +1,20 @@
+@use '../mixins/mq' as *;
+
+.knr-container {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 100%;
+  padding-left: 24px;
+  padding-right: 24px;
+  width: var(--page-width);
+
+  @include mq-xs {
+    width: 640px;
+  }
+
+  @include mq-md {
+    padding-left: 40px;
+    padding-right: 40px;
+    width: var(--page-width);
+  }
+}

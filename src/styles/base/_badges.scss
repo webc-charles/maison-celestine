@@ -1,0 +1,25 @@
+@use '../mixins/text' as *;
+
+.knr-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.knr-badges__item {
+  @include text-caps;
+
+  background: var(--knr-badges-paper, transparent);
+  border: 1px solid var(--knr-badges-rule, var(--color-ink));
+  border-radius: 2px;
+  color: var(--knr-badges-ink, var(--color-ink));
+  padding: 5px 3px 3px;
+  transition:
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}

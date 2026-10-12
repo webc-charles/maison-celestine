@@ -1,0 +1,556 @@
+{
+  "current": {
+    "logo_height": 36,
+    "logo_height_mobile": 28,
+    "favicon": "shopify://shop_images/favicon.png",
+    "type_body_font": "inter_n4",
+    "type_subheading_font": "inter_n5",
+    "type_heading_font": "inter_n7",
+    "type_accent_font": "inter_n7",
+    "type_size_paragraph": "14",
+    "type_line_height_paragraph": "body-loose",
+    "type_font_h1": "heading",
+    "type_size_h1": "56",
+    "type_line_height_h1": "display-tight",
+    "type_letter_spacing_h1": "heading-normal",
+    "type_case_h1": "none",
+    "type_font_h2": "heading",
+    "type_size_h2": "48",
+    "type_line_height_h2": "display-tight",
+    "type_letter_spacing_h2": "heading-normal",
+    "type_case_h2": "none",
+    "type_font_h3": "heading",
+    "type_size_h3": "32",
+    "type_line_height_h3": "display-normal",
+    "type_letter_spacing_h3": "heading-normal",
+    "type_case_h3": "none",
+    "type_font_h4": "heading",
+    "type_size_h4": "24",
+    "type_line_height_h4": "display-tight",
+    "type_font_h5": "subheading",
+    "type_size_h5": "14",
+    "type_line_height_h5": "display-loose",
+    "type_font_h6": "subheading",
+    "type_size_h6": "12",
+    "type_line_height_h6": "display-loose",
+    "page_width": "narrow",
+    "page_transition_enabled": false,
+    "transition_to_main_product": false,
+    "card_hover_effect": "none",
+    "badge_position": "top-right",
+    "badge_corner_radius": 100,
+    "badge_sold_out_background_color": "{{ settings.color_palette.color2 }}",
+    "badge_text_transform": "none",
+    "primary_button_border_width": 0,
+    "button_border_radius_primary": 14,
+    "secondary_button_border_width": 1,
+    "button_border_radius_secondary": 14,
+    "cart_type": "drawer",
+    "cart_price_font": "subheading",
+    "auto_open_cart_drawer": true,
+    "show_cart_note": false,
+    "show_add_discount_code": true,
+    "icon_stroke": "default",
+    "palette_input_border": "{{ settings.color_palette.color3 }}",
+    "input_border_width": 1,
+    "inputs_border_radius": 4,
+    "popover_border_radius": 14,
+    "currency_code_enabled_product_pages": false,
+    "currency_code_enabled_product_cards": false,
+    "currency_code_enabled_cart_items": false,
+    "product_corner_radius": 0,
+    "card_corner_radius": 4,
+    "show_variant_image": false,
+    "variant_swatch_width": 34,
+    "variant_swatch_height": 34,
+    "variant_swatch_radius": 32,
+    "palette_variant_border": "{{ settings.color_palette.color3 }}",
+    "variant_button_border_width": 1,
+    "variant_button_radius": 14,
+    "variant_button_width": "equal-width-buttons",
+    "sections": {
+      "knr-announcement-bar": {
+        "type": "knr-announcement-bar",
+        "blocks": {
+          "announ-m1": {
+            "type": "message",
+            "settings": {
+              "text": "<p>Livraison estimée sous 48h <a href=\"/pages/livraison-et-retour\">Voir les conditions</a></p>"
+            }
+          }
+        },
+        "block_order": [
+          "announ-m1"
+        ],
+        "settings": {
+          "step_label": "Message [index]",
+          "region_label": "Annonces"
+        }
+      },
+      "knr-page-header": {
+        "type": "knr-page-header",
+        "settings": {
+          "menu": "main-menu",
+          "menu_label": "Navigation principale",
+          "menu_toggle_label": "Ouvrir le menu",
+          "menu_close_label": "Fermer le menu",
+          "stores_url": "/pages/ou-nous-trouver",
+          "stores_label": "Points de vente",
+          "account_label": "Mon compte",
+          "search_label": "Rechercher",
+          "cart_label": "Panier"
+        }
+      },
+      "knr-product-main": {
+        "type": "knr-product-main",
+        "blocks": {
+          "produc-d1": {
+            "type": "detail",
+            "settings": {
+              "title": "Description",
+              "metafield": "hero_panel_description"
+            }
+          },
+          "produc-d2": {
+            "type": "detail",
+            "settings": {
+              "title": "Bienfaits",
+              "metafield": "hero_panel_benefits"
+            }
+          },
+          "produc-d3": {
+            "type": "detail",
+            "settings": {
+              "title": "Ingrédients clés",
+              "metafield": "hero_panel_key_ingredients"
+            }
+          },
+          "produc-d4": {
+            "type": "detail",
+            "settings": {
+              "title": "Adapté aux peaux",
+              "metafield": "hero_panel_skin_types"
+            }
+          },
+          "produc-n1": {
+            "type": "notice",
+            "settings": {
+              "text": "Livraison offerte dès 60 € d'achat en France métropolitaine."
+            }
+          },
+          "produc-n2": {
+            "type": "notice",
+            "settings": {
+              "text": "Retours acceptés jusqu’à 30 jours après réception."
+            }
+          },
+          "produc-n3": {
+            "type": "notice",
+            "settings": {
+              "text": "Paiement 100 % sécurisé par carte bancaire, PayPal ou virement."
+            }
+          }
+        },
+        "block_order": [
+          "produc-d1",
+          "produc-d2",
+          "produc-d3",
+          "produc-d4",
+          "produc-n1",
+          "produc-n2",
+          "produc-n3"
+        ],
+        "settings": {
+          "add_to_cart_label": "Ajouter au panier",
+          "breadcrumb_label": "Fil d'ariane",
+          "related_collection": "completez-votre-rituel",
+          "related_title": "Complétez votre rituel",
+          "rating_label": "[count] avis",
+          "zoom_label": "Agrandir l’image",
+          "previous_label": "Image précédente",
+          "next_label": "Image suivante",
+          "notice_label": "Message [index]",
+          "unit_price_label": "par"
+        }
+      },
+      "knr-product-ritual": {
+        "type": "knr-product-ritual",
+        "settings": {
+          "image": "shopify://shop_images/section-rituel.jpg",
+          "image_mobile": "shopify://shop_images/section-rituel-mobile.jpg",
+          "eyebrow": "Notre engagement pour une beauté régénérée",
+          "statement": "Fusionnant l'huile de rosier muscat, le rétinol végétal et l'extrait de cactus, notre sérum pénètre en profondeur pour stimuler le renouvellement cellulaire, atténuer les rides et redonner à la peau son éclat et sa fermeté naturels.",
+          "signature": "Sophie M.",
+          "add_to_cart_label": "Ajouter au panier"
+        }
+      },
+      "knr-how-to-use": {
+        "type": "knr-how-to-use",
+        "blocks": {
+          "howtou-s1": {
+            "type": "step",
+            "settings": {
+              "image": "shopify://shop_images/produit-serum-5-main.jpg",
+              "number": "01",
+              "title": "Découvrir",
+              "text": "<p>Concentré de pureté active. Huile végétale aux propriétés anti-oxydantes puissantes pour un éclat retrouvé.</p>",
+              "link_label": "Lire plus",
+              "url": "/products/serum-precieux-regenerant"
+            }
+          },
+          "howtou-s2": {
+            "type": "step",
+            "settings": {
+              "image": "shopify://shop_images/produit-serum-2-portrait.jpg",
+              "number": "02",
+              "title": "Découvrir",
+              "text": "<p>Éclat et uniformité retrouvés. Cible les taches et les irrégularités de grain de peau.</p>",
+              "link_label": "Lire plus",
+              "url": "/products/serum-eclat"
+            }
+          },
+          "howtou-s3": {
+            "type": "step",
+            "settings": {
+              "image": "shopify://shop_images/etape-3-rituel.jpg",
+              "number": "03",
+              "title": "Découvrir",
+              "text": "<p>Fermeté et nutrition intense. Répare la barrière cutanée et lisse les contours du visage.</p>",
+              "link_label": "Lire plus",
+              "url": "/products/creme-regenerante"
+            }
+          }
+        },
+        "block_order": [
+          "howtou-s1",
+          "howtou-s2",
+          "howtou-s3"
+        ],
+        "settings": {
+          "title": "How to use"
+        }
+      },
+      "knr-before-after": {
+        "type": "knr-before-after",
+        "settings": {
+          "title": "Ce que disent nos clientes",
+          "description": "Des transformations visibles dès 4 semaines. Nos clientes témoignent d'une peau visiblement régénérée, plus ferme et lumineuse.",
+          "before_image": "shopify://shop_images/avant.jpg",
+          "after_image": "shopify://shop_images/apres.jpg",
+          "before_label": "Before",
+          "after_label": "After",
+          "slider_label": "Comparer avant et après",
+          "testimonials_label": "Témoignages"
+        }
+      },
+      "knr-faq": {
+        "type": "knr-faq",
+        "blocks": {
+          "faq-f1": {
+            "type": "question",
+            "settings": {
+              "question": "Comment utiliser ?",
+              "answer": "<p>Appliquez 3 à 5 gouttes le soir sur visage et cou préalablement nettoyés. Massez délicatement en mouvements ascendants jusqu'à absorption complète. Peut s'utiliser seul ou sous votre crème habituelle.</p>"
+            }
+          },
+          "faq-f2": {
+            "type": "question",
+            "settings": {
+              "question": "Quand voir les effets ?",
+              "answer": "<p>Les premiers effets sur l'éclat apparaissent dès la deuxième semaine. L'atténuation des ridules se mesure à partir de la quatrième semaine, et la densité cutanée à douze semaines.</p>"
+            }
+          },
+          "faq-f3": {
+            "type": "question",
+            "settings": {
+              "question": "Convient-il à tous ?",
+              "answer": "<p>Oui, y compris aux peaux sensibles. Le rétinol végétal issu du bakuchiol ne provoque pas la photosensibilité du rétinol classique. En cas de doute, testez au pli du coude.</p>"
+            }
+          },
+          "faq-f4": {
+            "type": "question",
+            "settings": {
+              "question": "Est-il naturel ?",
+              "answer": "<p>97 % des ingrédients sont d'origine naturelle. La formule est certifiée COSMOS ORGANIC par ECOCERT Greenlife, sans parfum de synthèse ni conservateur controversé.</p>"
+            }
+          },
+          "faq-f5": {
+            "type": "question",
+            "settings": {
+              "question": "Peut-on l'associer ?",
+              "answer": "<p>Il s'associe à la Crème Régénérante le soir et au Sérum Éclat le matin. Évitez l'application simultanée avec un autre rétinoïde ou un acide exfoliant fort.</p>"
+            }
+          }
+        },
+        "block_order": [
+          "faq-f1",
+          "faq-f2",
+          "faq-f3",
+          "faq-f4",
+          "faq-f5"
+        ],
+        "settings": {
+          "title": "Questions fréquentes"
+        }
+      },
+      "knr-reviews": {
+        "type": "knr-reviews",
+        "settings": {
+          "title": "Avis clients",
+          "initial_count": 3,
+          "average_label": "[score] sur 5",
+          "filter_label": "Filtrer",
+          "all_label": "Tous les avis",
+          "empty_label": "Aucun avis pour cette note.",
+          "count_label": "Basé sur [count] avis",
+          "verified_label": "vérifié",
+          "write_label": "Écrire un avis",
+          "write_url": "/pages/nous-contacter",
+          "ask_label": "Poser une question",
+          "ask_url": "/pages/nous-contacter",
+          "more_label": "Charger plus"
+        }
+      },
+      "knr-latest-news": {
+        "type": "knr-latest-news",
+        "settings": {
+          "title": "Latest news",
+          "blog": "journal",
+          "count": 4,
+          "link_label": "Voir tous les articles"
+        }
+      },
+      "knr-newsletter": {
+        "type": "knr-newsletter",
+        "settings": {
+          "image": "shopify://shop_images/section-newsletter.jpg",
+          "title": "L'alliance de la science botanique et du luxe naturel pour une peau visiblement rajeunie en 4 semaines.",
+          "placeholder": "E-mail",
+          "button_label": "S'inscrire",
+          "success_message": "Merci, votre inscription est enregistrée.",
+          "legal": "Formule brevetée, testée dermatologiquement, 97 % d'ingrédients d'origine naturelle."
+        }
+      },
+      "knr-reassurance": {
+        "type": "knr-reassurance",
+        "blocks": {
+          "reassu-r1": {
+            "type": "item",
+            "settings": {
+              "title": "Livraison offerte",
+              "text": "Livraison offerte\ndès 60 € d'achat\nen France métropolitaine."
+            }
+          },
+          "reassu-r2": {
+            "type": "item",
+            "settings": {
+              "title": "Retours gratuits",
+              "text": "Retours acceptés\njusqu'à 30 jours\naprès réception."
+            }
+          },
+          "reassu-r3": {
+            "type": "item",
+            "settings": {
+              "title": "Paiement sécurisé",
+              "text": "Paiement 100 % sécurisé\npar carte bancaire,\nPayPal ou virement."
+            }
+          },
+          "reassu-r4": {
+            "type": "item",
+            "settings": {
+              "title": "Service client",
+              "text": "Du lundi au vendredi\nde 9h à 18h par email\net téléphone."
+            }
+          }
+        },
+        "block_order": [
+          "reassu-r1",
+          "reassu-r2",
+          "reassu-r3",
+          "reassu-r4"
+        ],
+        "settings": {}
+      },
+      "knr-footer-links": {
+        "type": "knr-footer-links",
+        "blocks": {
+          "footer-c1": {
+            "type": "menu",
+            "settings": {
+              "title": "Découvrir",
+              "menu": "footer-decouvrir"
+            }
+          },
+          "footer-c2": {
+            "type": "menu",
+            "settings": {
+              "title": "Service client",
+              "menu": "footer-service-client"
+            }
+          },
+          "footer-c3": {
+            "type": "menu",
+            "settings": {
+              "title": "Légal & Transparence",
+              "menu": "footer-legal"
+            }
+          },
+          "footer-c4": {
+            "type": "about",
+            "settings": {
+              "title": "À propos de Maison Célestine",
+              "text": "Maison Célestine est une marque de soins anti-âge haut de gamme formulée autour d'actifs rares et certifiés biologiques, guidée par une expertise médicale et un rituel simple, précis et efficace.",
+              "certification_image": "shopify://shop_images/certification-cosmos.png",
+              "certification_text": "Certifié COSMOS ORGANIC par ECOCERT Greenlife",
+              "certification_label": "Voir le certificat",
+              "certification_url": "/pages/certification"
+            }
+          }
+        },
+        "block_order": [
+          "footer-c1",
+          "footer-c2",
+          "footer-c3",
+          "footer-c4"
+        ],
+        "settings": {}
+      },
+      "knr-footer-logo": {
+        "type": "knr-footer-logo",
+        "blocks": {
+          "footer-s1": {
+            "type": "social",
+            "settings": {
+              "name": "Facebook",
+              "url": "https://www.facebook.com/maisoncelestine",
+              "icon": "<svg width=\"16\" height=\"16\" viewbox=\"0 0 16 16\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M16 8a8 8 0 1 0-9.25 7.9v-5.59H4.72V8h2.03V6.24c0-2 1.2-3.11 3.02-3.11.87 0 1.79.16 1.79.16v1.97h-1.01c-.99 0-1.3.62-1.3 1.25V8h2.22l-.35 2.31H9.25v5.59A8 8 0 0 0 16 8Z\"></path></svg>"
+            }
+          },
+          "footer-s2": {
+            "type": "social",
+            "settings": {
+              "name": "Instagram",
+              "url": "https://www.instagram.com/maisoncelestine",
+              "icon": "<svg width=\"16\" height=\"16\" viewbox=\"0 0 16 16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.2\" aria-hidden=\"true\"><rect x=\"1.8\" y=\"1.8\" width=\"12.4\" height=\"12.4\" rx=\"3.6\"></rect><circle cx=\"8\" cy=\"8\" r=\"3.1\"></circle><circle cx=\"11.9\" cy=\"4.1\" r=\"0.7\" fill=\"currentColor\" stroke=\"none\"></circle></svg>"
+            }
+          },
+          "footer-s3": {
+            "type": "social",
+            "settings": {
+              "name": "TikTok",
+              "url": "https://www.tiktok.com/@maisoncelestine",
+              "icon": "<svg width=\"16\" height=\"16\" viewbox=\"0 0 16 16\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M10.5 1h-2v9.3a1.9 1.9 0 1 1-1.6-1.9V6.3a4 4 0 1 0 3.6 4V5.9a4.6 4.6 0 0 0 2.8.9V4.7a2.7 2.7 0 0 1-2.8-2.6V1Z\"></path></svg>"
+            }
+          },
+          "footer-s4": {
+            "type": "social",
+            "settings": {
+              "name": "LinkedIn",
+              "url": "https://www.linkedin.com/company/maisoncelestine",
+              "icon": "<svg width=\"16\" height=\"16\" viewbox=\"0 0 16 16\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M3.3 5.4h2.4V14H3.3V5.4Zm1.2-3.8a1.4 1.4 0 1 1 0 2.8 1.4 1.4 0 0 1 0-2.8ZM7.4 5.4h2.3v1.2h.03c.32-.6 1.1-1.24 2.27-1.24 2.43 0 2.88 1.6 2.88 3.68V14h-2.4V9.5c0-1.07-.02-2.45-1.5-2.45-1.5 0-1.73 1.17-1.73 2.37V14H7.4V5.4Z\"></path></svg>"
+            }
+          }
+        },
+        "block_order": [
+          "footer-s1",
+          "footer-s2",
+          "footer-s3",
+          "footer-s4"
+        ],
+        "settings": {
+          "wordmark": "maison célestine",
+          "rights": "Tous droits réservés.",
+          "show_country": true,
+          "show_language": true,
+          "country_label": "Pays",
+          "language_label": "Langue"
+        }
+      }
+    },
+    "content_for_index": [],
+    "color_palette": {
+      "background": "#ffffff",
+      "foreground": "#000000",
+      "color1": "#333333",
+      "color2": "#EEF1EA",
+      "color3": "#DFDFDF"
+    }
+  },
+  "presets": {
+    "Default": {
+      "logo_height": 36,
+      "logo_height_mobile": 28,
+      "type_body_font": "inter_n4",
+      "type_subheading_font": "inter_n5",
+      "type_heading_font": "inter_n7",
+      "type_accent_font": "inter_n7",
+      "type_size_paragraph": "14",
+      "type_line_height_paragraph": "body-loose",
+      "type_font_h1": "heading",
+      "type_size_h1": "56",
+      "type_line_height_h1": "display-tight",
+      "type_letter_spacing_h1": "heading-normal",
+      "type_case_h1": "none",
+      "type_font_h2": "heading",
+      "type_size_h2": "48",
+      "type_line_height_h2": "display-tight",
+      "type_letter_spacing_h2": "heading-normal",
+      "type_case_h2": "none",
+      "type_font_h3": "heading",
+      "type_size_h3": "32",
+      "type_line_height_h3": "display-normal",
+      "type_letter_spacing_h3": "heading-normal",
+      "type_case_h3": "none",
+      "type_font_h4": "heading",
+      "type_size_h4": "24",
+      "type_line_height_h4": "display-tight",
+      "type_font_h5": "subheading",
+      "type_size_h5": "14",
+      "type_line_height_h5": "display-loose",
+      "type_font_h6": "subheading",
+      "type_size_h6": "12",
+      "type_line_height_h6": "display-loose",
+      "page_width": "narrow",
+      "page_transition_enabled": false,
+      "transition_to_main_product": false,
+      "card_hover_effect": "none",
+      "badge_position": "top-right",
+      "badge_corner_radius": 100,
+      "badge_text_transform": "none",
+      "primary_button_border_width": 0,
+      "button_border_radius_primary": 14,
+      "secondary_button_border_width": 1,
+      "button_border_radius_secondary": 14,
+      "cart_type": "drawer",
+      "cart_price_font": "subheading",
+      "show_cart_note": false,
+      "show_add_discount_code": true,
+      "icon_stroke": "default",
+      "input_border_width": 1,
+      "inputs_border_radius": 4,
+      "popover_border_radius": 14,
+      "currency_code_enabled_product_pages": false,
+      "currency_code_enabled_product_cards": false,
+      "currency_code_enabled_cart_items": false,
+      "product_corner_radius": 0,
+      "card_corner_radius": 4,
+      "show_variant_image": false,
+      "variant_swatch_width": 34,
+      "variant_swatch_height": 34,
+      "variant_swatch_radius": 32,
+      "variant_button_border_width": 1,
+      "variant_button_radius": 14,
+      "variant_button_width": "equal-width-buttons",
+      "badge_sold_out_background_color": "{{ settings.color_palette.color2 }}",
+      "palette_input_border": "{{ settings.color_palette.color3 }}",
+      "palette_variant_border": "{{ settings.color_palette.color3 }}",
+      "color_palette": {
+        "background": "#ffffff",
+        "foreground": "#000000",
+        "color1": "#333333",
+        "color2": "#EEF1EA",
+        "color3": "#DFDFDF"
+      }
+    }
+  }
+}

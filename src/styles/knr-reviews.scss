@@ -1,0 +1,261 @@
+@use 'mixins/mq' as *;
+@use 'mixins/text' as *;
+
+.knr-reviews {
+  padding-top: 40px;
+  padding-bottom: 64px;
+
+  @include mq-md {
+    padding-top: 0;
+    padding-bottom: 120px;
+  }
+}
+
+.knr-reviews__panel {
+  display: grid;
+  margin-top: 40px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 720px;
+
+  @include mq-md {
+    margin-top: 80px;
+  }
+}
+
+.knr-reviews .knr-section-header__title {
+  @include text-heading;
+
+  @include mq-md {
+    @include text-title;
+  }
+}
+
+.knr-reviews .knr-rating {
+  justify-items: center;
+
+  @include mq-md {
+    justify-items: start;
+  }
+}
+
+.knr-reviews__summary {
+  display: grid;
+  gap: 40px;
+
+  @include mq-md {
+    column-gap: 0;
+    grid-template-columns: 241px 229px 250px;
+    row-gap: 24px;
+  }
+}
+
+.knr-reviews__distribution {
+  display: grid;
+  gap: 10px;
+}
+
+.knr-reviews__bar-row {
+  align-items: center;
+  display: grid;
+  gap: 4px;
+  grid-template-columns: auto 104px auto;
+  height: 12px;
+  justify-content: center;
+
+  @include mq-md {
+    justify-content: start;
+  }
+}
+
+.knr-reviews__bar-count {
+  @include text-small;
+
+  color: var(--color-gold);
+  min-width: 12px;
+}
+
+.knr-reviews__bar {
+  background: var(--color-shell);
+  display: block;
+  height: 12px;
+}
+
+.knr-reviews__bar-fill {
+  background: var(--color-sand);
+  display: block;
+  height: 100%;
+  width: var(--knr-ratio);
+}
+
+.knr-reviews__actions {
+  display: grid;
+  gap: 4px;
+}
+
+.knr-reviews__filter-group {
+  margin-top: 40px;
+  position: relative;
+
+  @include mq-md {
+    margin-top: 42px;
+  }
+}
+
+.knr-reviews__filter {
+  @include text-body;
+
+  align-items: center;
+  border-bottom: 1px solid var(--color-rule);
+  cursor: pointer;
+  display: flex;
+  gap: 10px;
+  justify-content: start;
+  min-height: 36px;
+  width: 100%;
+}
+
+.knr-reviews__filter-label {
+  align-items: center;
+  display: inline-flex;
+  gap: 6px;
+  line-height: 1;
+}
+
+.knr-reviews__ratings {
+  background: var(--color-white);
+  border: 1px solid var(--color-rule);
+  display: none;
+  top: calc(100% - 1px);
+  left: 0;
+  min-width: 240px;
+  position: absolute;
+  z-index: 1;
+}
+
+.knr-reviews__filter[aria-expanded='true'] + .knr-reviews__ratings {
+  display: block;
+}
+
+.knr-reviews__rating {
+  @include text-body;
+
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  min-height: 36px;
+  padding-left: 16px;
+  padding-right: 16px;
+  text-align: start;
+  width: 100%;
+
+  &:hover,
+  &:focus-visible {
+    background: var(--color-shell);
+  }
+
+  &[aria-pressed='true'] {
+    background: var(--color-shell);
+  }
+}
+
+.knr-reviews__rating-count {
+  @include text-small;
+
+  color: var(--color-gold);
+}
+
+.knr-reviews__empty {
+  @include text-body;
+
+  margin-top: 16px;
+  text-align: center;
+}
+
+.knr-reviews__list {
+  display: grid;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.knr-reviews__item {
+  align-content: start;
+  border-bottom: 1px solid var(--color-rule);
+  display: grid;
+  gap: 8px;
+  padding-bottom: 16px;
+}
+
+.knr-reviews__item--entering {
+  animation: knr-review-enter 0.35s ease backwards;
+  animation-delay: calc(var(--knr-enter) * 0.07s);
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+.knr-reviews__author,
+.knr-reviews__usage {
+  margin-top: 8px;
+}
+
+.knr-reviews__item-header {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.knr-reviews__date {
+  @include text-small;
+}
+
+.knr-reviews__author {
+  @include text-body;
+
+  align-items: center;
+  display: flex;
+  gap: 10px;
+}
+
+.knr-reviews__verified {
+  align-items: center;
+  border-radius: 2px;
+  border: 1px solid var(--color-ink);
+  display: inline-flex;
+  font-size: 8px;
+  letter-spacing: -0.02em;
+  line-height: 17px;
+  padding-left: 4px;
+  padding-right: 4px;
+  text-transform: uppercase;
+}
+
+.knr-reviews__usage,
+.knr-reviews__text {
+  @include text-body;
+}
+
+.knr-reviews__more {
+  display: grid;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.knr-reviews__actions .knr-button,
+.knr-reviews__more .knr-button {
+  width: 100%;
+
+  @include mq-md {
+    width: 250px;
+  }
+}
+
+@keyframes knr-review-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}

@@ -1,0 +1,5 @@
+src/
+node_modules/
+package.json
+pnpm-lock.yaml
+dev.sh

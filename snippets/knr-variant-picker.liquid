@@ -1,0 +1,27 @@
+{%- liquid
+  assign option = product.options_with_values | first
+  assign selected = product.selected_or_first_available_variant.option1 | default: option.values.first
+  assign group = scope | default: 'variant' | append: '-' | append: option.name | handle
+-%}
+{%- if option.values.size > 1 -%}
+  <fieldset
+    class="knr-variant-picker"
+    {% if compact %}role="radiogroup" aria-label="{{ option.name | escape }}"{% endif %}>
+    {%- unless compact -%}
+      <legend class="knr-variant-picker__label">{{ option.name }}</legend>
+    {%- endunless -%}
+    <div class="knr-variant-picker__options">
+      {%- for value in option.values -%}
+        {%- assign input_id = group | append: '-' | append: forloop.index -%}
+        <input
+          class="knr-variant-picker__input knr-visually-hidden"
+          type="radio"
+          id="{{ input_id }}"
+          name="{{ group }}"
+          value="{{ value | escape }}"
+          {% if value == selected %}checked{% endif %}>
+        <label class="knr-variant-picker__value" for="{{ input_id }}">{{ value }}</label>
+      {%- endfor -%}
+    </div>
+  </fieldset>
+{%- endif -%}

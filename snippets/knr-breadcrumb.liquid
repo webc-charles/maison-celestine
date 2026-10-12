@@ -1,0 +1,15 @@
+{%- assign parent = collection.metafields.knr.breadcrumb_parent.value -%}
+{%- if collection != blank -%}
+  <nav class="knr-breadcrumb" aria-label="{{ label | escape }}">
+    <ol class="knr-breadcrumb__list">
+      {%- if parent != blank -%}
+        <li class="knr-breadcrumb__item">
+          <a href="{{ parent.url }}">{{ parent.title }}</a>
+        </li>
+      {%- endif -%}
+      <li class="knr-breadcrumb__item">
+        <a href="{{ collection.url }}">{{ collection.title }}</a>
+      </li>
+    </ol>
+  </nav>
+{%- endif -%}

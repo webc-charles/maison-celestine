@@ -1,0 +1,18 @@
+@use 'mixins/text' as *;
+
+html {
+  overflow-x: clip;
+}
+
+.knr-page {
+  @include text-body;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: var(--color-white);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-weight: 400;
+  overflow-x: clip;
+  position: relative;
+}

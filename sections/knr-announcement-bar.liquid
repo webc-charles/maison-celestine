@@ -1,0 +1,85 @@
+{{ 'knr-announcement-bar.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign messages = section.blocks
+  assign count = messages.size
+-%}
+
+{%- if count > 0 -%}
+  <div class="knr-container" role="region" aria-label="{{ section.settings.region_label | default: 'Annonces' | escape }}">
+    <div class="knr-announcement-bar__messages" data-knr-rotator>
+      {%- for block in messages -%}
+        <div
+          class="knr-announcement-bar__message"
+          data-knr-rotator-message
+          {% unless forloop.first %}inert{% endunless %}
+          {{ block.shopify_attributes }}>{{ block.settings.text }}</div>
+      {%- endfor -%}
+
+      {%- if count > 1 -%}
+        <span class="knr-steps knr-announcement-bar__steps">
+          {%- for index in (1..count) -%}
+            <button
+              class="knr-steps__step{% if forloop.first %} knr-steps__step--on{% endif %}"
+              type="button"
+              aria-current="{% if forloop.first %}true{% else %}false{% endif %}"
+              data-knr-rotator-step>
+              <span class="knr-visually-hidden">{{ section.settings.step_label | replace: '[index]', index }}</span>
+            </button>
+          {%- endfor -%}
+        </span>
+      {%- endif -%}
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Announcement bar",
+  "tag": "div",
+  "class": "knr-announcement-bar",
+  "settings": [
+    {
+      "type": "text",
+      "id": "region_label",
+      "label": "Region name for screen readers",
+      "default": "Annonces"
+    },
+    {
+      "type": "text",
+      "id": "step_label",
+      "label": "Rotation step label",
+      "info": "[index] is replaced by the step number. Read by screen readers only.",
+      "default": "Message [index]"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "message",
+      "name": "Message",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Message",
+          "info": "One block per message. From two messages up, the bar rotates."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Announcement bar",
+      "blocks": [
+        {
+          "type": "message",
+          "settings": {
+            "text": "<p>Livraison estimée sous 48h <a href=\"/pages/livraison-et-retour\">Voir les conditions</a></p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

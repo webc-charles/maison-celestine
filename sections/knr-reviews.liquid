@@ -1,0 +1,196 @@
+{{ 'knr-reviews.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign widget = product.metafields.judgeme.review_widget_data.value
+  assign total = widget.number_of_reviews | default: 0
+  assign average = widget.average_rating | times: 1.0 | round: 1
+  assign reviews = widget.reviews
+  assign pages = widget.pagination.total_pages | default: 1
+
+  assign count_label = section.settings.count_label | replace: '[count]', total
+  assign average_label = section.settings.average_label | replace: '[score]', average
+-%}
+
+{%- if total > 0 -%}
+  <div class="knr-container">
+    {% render 'knr-section-header', title: section.settings.title, align: 'center' %}
+
+    <div
+      class="knr-reviews__panel"
+      data-knr-reviews
+      data-knr-reviews-product="{{ product.metafields.judgeme.review_widget_data.value.product_external_id }}"
+      data-knr-reviews-shop="{{ shop.permanent_domain }}"
+      data-knr-reviews-pages="{{ pages }}"
+      data-knr-reviews-step="{{ section.settings.initial_count }}">
+      <div class="knr-reviews__summary">
+        <div>
+          {% render 'knr-rating', score: average, label: average_label, count: count_label %}
+        </div>
+
+        <ul class="knr-reviews__distribution">
+          {%- for step in widget.histogram -%}
+            <li class="knr-reviews__bar-row">
+              {% render 'knr-rating', score: step.rating %}
+              <span class="knr-reviews__bar" role="presentation">
+                <span class="knr-reviews__bar-fill" style="--knr-ratio: {{ step.percentage }}%"></span>
+              </span>
+              <span class="knr-reviews__bar-count">{{ step.frequency }}</span>
+            </li>
+          {%- endfor -%}
+        </ul>
+
+        <div class="knr-reviews__actions">
+          {% render 'knr-button', label: section.settings.write_label, tag: 'a', url: section.settings.write_url %}
+          {% render 'knr-button', label: section.settings.ask_label, tag: 'a', url: section.settings.ask_url, kind: 'outlined' %}
+        </div>
+      </div>
+
+      <div class="knr-reviews__filter-group">
+        <button
+          class="knr-reviews__filter"
+          type="button"
+          id="knr-reviews-filter"
+          aria-controls="knr-reviews-ratings"
+          aria-expanded="false"
+          data-knr-disclosure
+          data-knr-disclosure-popup>
+          {% render 'knr-icon', name: 'filter' %}
+          <span class="knr-reviews__filter-label" data-knr-reviews-filter-label>{{ section.settings.filter_label }}</span>
+        </button>
+
+        <ul class="knr-reviews__ratings" id="knr-reviews-ratings" data-knr-reviews-filter>
+          <li>
+            <button class="knr-reviews__rating" type="button" aria-pressed="true" data-knr-reviews-rating="">
+              {{ section.settings.all_label }}
+              <span class="knr-reviews__rating-count">{{ total }}</span>
+            </button>
+          </li>
+          {%- for step in widget.histogram -%}
+            <li>
+              <button class="knr-reviews__rating" type="button" aria-pressed="false" data-knr-reviews-rating="{{ step.rating }}">
+                {% render 'knr-rating', score: step.rating %}
+                <span class="knr-reviews__rating-count">{{ step.frequency }}</span>
+              </button>
+            </li>
+          {%- endfor -%}
+        </ul>
+      </div>
+
+      <ul class="knr-reviews__list" data-knr-reviews-list>
+        {%- for review in reviews -%}
+          {%- liquid
+            assign beyond = false
+            if forloop.index0 >= section.settings.initial_count
+              assign beyond = true
+            endif
+          -%}
+          {% render 'knr-review',
+            review: review,
+            hidden: beyond,
+            verified_label: section.settings.verified_label %}
+        {%- endfor -%}
+      </ul>
+
+      <p class="knr-reviews__empty" data-knr-reviews-empty hidden>{{ section.settings.empty_label }}</p>
+
+      <template data-knr-review-template>
+        {% render 'knr-review', review: blank, hidden: true, verified_label: section.settings.verified_label %}
+      </template>
+
+      {%- if pages > 1 -%}
+        <div class="knr-reviews__more" data-knr-reviews-more>
+          {% render 'knr-button', label: section.settings.more_label, kind: 'outlined' %}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Customer reviews",
+  "tag": "section",
+  "class": "knr-reviews",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Avis clients"
+    },
+    {
+      "type": "range",
+      "id": "initial_count",
+      "label": "Reviews shown",
+      "min": 3,
+      "max": 10,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "text",
+      "id": "average_label",
+      "label": "Average rating",
+      "default": "[score] sur 5"
+    },
+    {
+      "type": "text",
+      "id": "filter_label",
+      "label": "Filter",
+      "default": "Filtrer"
+    },
+    {
+      "type": "text",
+      "id": "all_label",
+      "label": "Filter: all ratings",
+      "default": "Tous les avis"
+    },
+    {
+      "type": "text",
+      "id": "empty_label",
+      "label": "Filter: no result",
+      "default": "Aucun avis pour cette note."
+    },
+    {
+      "type": "text",
+      "id": "count_label",
+      "label": "Review count",
+      "default": "Basé sur [count] avis"
+    },
+    {
+      "type": "text",
+      "id": "verified_label",
+      "label": "Verified badge",
+      "default": "vérifié"
+    },
+    {
+      "type": "text",
+      "id": "write_label",
+      "label": "Write review button",
+      "default": "Écrire un avis"
+    },
+    {
+      "type": "url",
+      "id": "write_url",
+      "label": "Write review link"
+    },
+    {
+      "type": "text",
+      "id": "ask_label",
+      "label": "Ask question button",
+      "default": "Poser une question"
+    },
+    {
+      "type": "url",
+      "id": "ask_url",
+      "label": "Ask question link"
+    },
+    {
+      "type": "text",
+      "id": "more_label",
+      "label": "Load more button",
+      "default": "Charger plus"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,80 @@
+{{ 'knr-how-to-use.css' | asset_url | stylesheet_tag }}
+
+  <div class="knr-container">
+  {% render 'knr-section-header', title: section.settings.title %}
+
+  {%- if section.blocks.size > 0 -%}
+    <ul class="knr-how-to-use__list" data-knr-drag>
+      {%- for block in section.blocks -%}
+        <li {{ block.shopify_attributes }}>
+          {% render 'knr-media-card',
+            image: block.settings.image,
+            eyebrow: block.settings.number,
+            title: block.settings.title,
+            text: block.settings.text,
+            link_label: block.settings.link_label,
+            url: block.settings.url %}
+        </li>
+      {%- endfor -%}
+    </ul>
+
+    {% render 'knr-progress' %}
+  {%- endif -%}
+  </div>
+
+{% schema %}
+{
+  "name": "How to use",
+  "tag": "section",
+  "class": "knr-how-to-use",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "How to use"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "number",
+          "label": "Number",
+          "default": "01"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text"
+        },
+        {
+          "type": "text",
+          "id": "link_label",
+          "label": "Link",
+          "default": "Lire plus"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link target"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

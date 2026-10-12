@@ -1,0 +1,72 @@
+@use 'mixins/mq' as *;
+@use 'mixins/scroll' as *;
+@use 'mixins/text' as *;
+
+.knr-reassurance {
+  background: var(--color-sand);
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+
+.knr-reassurance .knr-container {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.knr-reassurance__list {
+  @include scroll-row;
+
+  display: grid;
+  gap: 80px;
+  grid-auto-columns: 100%;
+  grid-auto-flow: column;
+
+  @include mq-md {
+    gap: 0;
+    grid-auto-columns: auto;
+    grid-auto-flow: row;
+    grid-template-columns: repeat(4, 1fr);
+    overflow-x: visible;
+  }
+}
+
+.knr-reassurance .knr-steps {
+  margin-top: 24px;
+
+  @include mq-md {
+    display: none;
+  }
+}
+
+.knr-reassurance .knr-steps__step {
+  background: var(--color-gold);
+}
+
+.knr-reassurance .knr-steps__step--on {
+  background: var(--color-ink);
+}
+
+.knr-reassurance__item {
+  display: grid;
+  gap: 24px;
+  padding-left: 16px;
+  padding-right: 16px;
+  text-align: center;
+
+  @include mq-md {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+.knr-reassurance__title {
+  @include text-label;
+}
+
+.knr-reassurance__text {
+  @include text-body;
+
+  @include mq-md {
+    white-space: pre-line;
+  }
+}

@@ -1,0 +1,11 @@
+<header class="knr-section-header{% if align %} knr-section-header--{{ align }}{% endif %}">
+  <h2 class="knr-section-header__title">{{ title }}</h2>
+
+  {%- if link_label != blank -%}
+    <a class="knr-section-header__link" href="{{ link_url | default: '#' }}">{{ link_label }}</a>
+  {%- endif -%}
+
+  {%- if description != blank -%}
+    <p class="knr-section-header__description">{{ description }}</p>
+  {%- endif -%}
+</header>
