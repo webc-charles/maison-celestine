@@ -1,0 +1,519 @@
+{{ 'knr-cart-drawer.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign paid_total = 0
+  assign sample_count = 0
+  assign gift_in_cart = false
+  assign gift_key = ''
+  assign sample_keys = ''
+
+  for item in cart.items
+    if item.properties['_knr_sample']
+      assign sample_count = sample_count | plus: item.quantity
+      assign sample_keys = sample_keys | append: item.key | append: ','
+    elsif item.properties['_knr_gift']
+      assign gift_in_cart = true
+      assign gift_key = item.key
+    else
+      assign paid_total = paid_total | plus: item.final_line_price
+    endif
+  endfor
+
+  assign sample_keys = sample_keys | split: ','
+
+  assign tier_count = section.blocks.size
+  assign unlocked_count = 0
+  assign samples_max = 0
+  assign gift_unlocked = false
+  assign low_threshold = 0
+  assign next_threshold = 0
+  assign next_label = ''
+  assign next_message = ''
+
+  for block in section.blocks
+    assign threshold = block.settings.amount | times: 100
+
+    if paid_total >= threshold
+      assign unlocked_count = unlocked_count | plus: 1
+      assign low_threshold = threshold
+
+      case block.type
+        when 'samples'
+          if block.settings.samples_max > samples_max
+            assign samples_max = block.settings.samples_max
+          endif
+        when 'gift'
+          assign gift_unlocked = true
+      endcase
+    elsif next_threshold == 0
+      assign next_threshold = threshold
+      assign next_label = block.settings.label
+      assign next_message = block.settings.message_locked
+    endif
+  endfor
+
+  assign progress = 100
+
+  if tier_count > 0
+    assign segment = 100 | divided_by: tier_count
+    assign progress = unlocked_count | times: segment
+
+    if next_threshold > 0
+      assign span = next_threshold | minus: low_threshold
+      if span > 0
+        assign gained = paid_total | minus: low_threshold
+        assign partial = gained | times: segment | divided_by: span
+        assign progress = progress | plus: partial
+      endif
+    else
+      assign progress = 100
+    endif
+  endif
+
+  if next_threshold > 0
+    assign remaining = next_threshold | minus: paid_total | money
+    assign message = next_message | replace: '[reste]', remaining | replace: '[avantage]', next_label
+  else
+    assign message = section.settings.all_unlocked_message
+  endif
+-%}
+
+{%- capture cart_state -%}
+      {
+        "paidTotal": {{ paid_total }},
+        "sampleCount": {{ sample_count }},
+        "samplesMax": {{ samples_max }},
+        "giftUnlocked": {{ gift_unlocked }},
+        "giftInCart": {{ gift_in_cart }},
+        "giftKey": {{ gift_key | json }},
+        "sampleKeys": {{ sample_keys | json }},
+        "giftVariant": {% if section.settings.gift_product != blank %}{{ section.settings.gift_product.selected_or_first_available_variant.id }}{% else %}null{% endif %},
+        "tiers": [
+          {%- for block in section.blocks -%}
+            {%- unless forloop.first %},{% endunless -%}
+            {
+              "amount": {{ block.settings.amount | times: 100 }},
+              "label": {{ block.settings.label | json }},
+              "reward": {{ block.type | json }},
+              "samplesMax": {{ block.settings.samples_max | default: 0 }},
+              "messageLocked": {{ block.settings.message_locked | json }},
+              "messageUnlocked": {{ block.settings.message_unlocked | json }}
+            }
+          {%- endfor -%}
+        ],
+        "allUnlockedMessage": {{ section.settings.all_unlocked_message | json }}
+      }
+{%- endcapture -%}
+
+{%- if template.name == 'cart' -%}
+
+{% render 'knr-cart-lock', label: section.settings.gift_label %}
+
+<div hidden data-knr-cart-drawer data-knr-cart-headless>
+  <div data-knr-cart-content>
+    <script type="application/json" data-knr-cart-data>{{ cart_state }}</script>
+  </div>
+</div>
+
+{%- else -%}
+
+<dialog
+  class="knr-cart-drawer"
+  id="knr-cart-drawer"
+  aria-label="{{ section.settings.title | escape }}"
+  data-knr-cart-drawer
+>
+  <div class="knr-cart-drawer__content" data-knr-cart-content>
+    <script type="application/json" data-knr-cart-data>{{ cart_state }}</script>
+
+    <section class="knr-cart-drawer__panel" data-knr-cart-panel="cart" tabindex="-1">
+      <header class="knr-cart-drawer__header">
+        <span class="knr-cart-drawer__mark">
+          {% render 'knr-icon', name: 'bag' %}
+          <span class="knr-cart-drawer__badge" aria-hidden="true">{{ cart.item_count }}</span>
+        </span>
+
+        <h2 class="knr-cart-drawer__title">{{ section.settings.title }}</h2>
+
+        <button
+          class="knr-button knr-button--ghost knr-button--small knr-button--square"
+          type="button"
+          aria-label="{{ section.settings.close_label | escape }}"
+          data-knr-cart-close
+        >
+          {% render 'knr-icon', name: 'close' %}
+        </button>
+      </header>
+
+      {%- if tier_count > 0 -%}
+        {% render 'knr-cart-progress',
+          blocks: section.blocks,
+          paid_total: paid_total,
+          progress: progress,
+          message: message
+        %}
+      {%- endif -%}
+
+      <div class="knr-cart-drawer__lines">
+        {%- if cart.empty? -%}
+          <p class="knr-cart-drawer__empty">{{ section.settings.empty_text }}</p>
+        {%- else -%}
+          {%- for item in cart.items -%}
+            {%- if item.properties['_knr_sample'] or item.properties['_knr_gift'] %}{% continue %}{% endif -%}
+            {% render 'knr-cart-line',
+              item: item,
+              remove_label: section.settings.remove_label,
+              gift_label: section.settings.gift_label,
+              rating_label: section.settings.rating_label,
+              increase_label: section.settings.increase_label,
+              decrease_label: section.settings.decrease_label
+            %}
+          {%- endfor -%}
+
+          {%- for item in cart.items -%}
+            {%- unless item.properties['_knr_gift'] %}{% continue %}{% endunless -%}
+            {% render 'knr-cart-line',
+              item: item,
+              remove_label: section.settings.remove_label,
+              gift_label: section.settings.gift_label,
+              rating_label: section.settings.rating_label,
+              increase_label: section.settings.increase_label,
+              decrease_label: section.settings.decrease_label
+            %}
+          {%- endfor -%}
+        {%- endif -%}
+      </div>
+
+      {%- capture samples_block -%}
+        {%- if samples_max > 0 -%}
+          {% render 'knr-cart-samples',
+            settings: section.settings,
+            samples_max: samples_max,
+            sample_count: sample_count
+          %}
+        {%- endif -%}
+      {%- endcapture -%}
+
+      {% render 'knr-cart-footer',
+        label: section.settings.checkout_label,
+        amount: cart.total_price,
+        note: section.settings.legal_note,
+        url: routes.cart_url,
+        before: samples_block
+      %}
+    </section>
+
+    {%- if samples_max > 0 and section.settings.samples != blank -%}
+      <section class="knr-cart-drawer__panel" data-knr-cart-panel="samples" tabindex="-1" hidden>
+        <header class="knr-cart-drawer__header">
+          <button
+            class="knr-button knr-button--ghost knr-button--small knr-button--square"
+            type="button"
+            aria-label="{{ section.settings.picker_back_label | escape }}"
+            data-knr-cart-back
+          >
+            {% render 'knr-icon', name: 'arrow-left' %}
+          </button>
+
+          <h2 class="knr-cart-drawer__title">{{ section.settings.picker_title }}</h2>
+
+          <p class="knr-cart-drawer__counter" data-knr-cart-counter>
+            {{- sample_count }}/{{ samples_max -}}
+          </p>
+        </header>
+
+        <div class="knr-cart-drawer__grid">
+          {%- for product in section.settings.samples -%}
+            {% render 'knr-cart-sample-card',
+              product: product,
+              add_label: section.settings.picker_add_label,
+              remove_label: section.settings.picker_remove_label
+            %}
+          {%- endfor -%}
+        </div>
+
+        {% render 'knr-cart-footer',
+          label: section.settings.validate_label,
+          count: sample_count,
+          max: samples_max,
+          action: 'validate'
+        %}
+      </section>
+    {%- endif -%}
+  </div>
+</dialog>
+
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Cart drawer",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Drawer"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Votre panier"
+    },
+    {
+      "type": "text",
+      "id": "close_label",
+      "label": "Close button",
+      "default": "Fermer le panier"
+    },
+    {
+      "type": "text",
+      "id": "empty_text",
+      "label": "Empty cart",
+      "default": "Votre panier est vide."
+    },
+    {
+      "type": "text",
+      "id": "remove_label",
+      "label": "Remove a line",
+      "default": "Supprimer"
+    },
+    {
+      "type": "text",
+      "id": "gift_label",
+      "label": "Free line price",
+      "default": "OFFERT"
+    },
+    {
+      "type": "text",
+      "id": "rating_label",
+      "label": "Review count",
+      "default": "[count] avis"
+    },
+    {
+      "type": "text",
+      "id": "increase_label",
+      "label": "Increase quantity",
+      "default": "Augmenter la quantité"
+    },
+    {
+      "type": "text",
+      "id": "decrease_label",
+      "label": "Decrease quantity",
+      "default": "Diminuer la quantité"
+    },
+    {
+      "type": "text",
+      "id": "checkout_label",
+      "label": "Checkout button",
+      "default": "Voir mon panier"
+    },
+    {
+      "type": "text",
+      "id": "legal_note",
+      "label": "Legal note",
+      "default": "Les frais de livraison et codes promo s’appliquent lors du paiement"
+    },
+    {
+      "type": "header",
+      "content": "Progress bar"
+    },
+    {
+      "type": "text",
+      "id": "all_unlocked_message",
+      "label": "All rewards unlocked",
+      "default": "Bravo, vous bénéficiez de tous vos cadeaux !"
+    },
+    {
+      "type": "paragraph",
+      "content": "Un bloc par palier, trois au plus — un seul de chaque sorte. Dans ses messages, [reste] est remplacé par le montant manquant et [avantage] par le libellé du palier."
+    },
+    {
+      "type": "header",
+      "content": "Free samples"
+    },
+    {
+      "type": "product_list",
+      "id": "samples",
+      "label": "Samples",
+      "limit": 50,
+      "info": "Des produits à 0 €, publiés sur la boutique en ligne."
+    },
+    {
+      "type": "text",
+      "id": "samples_title",
+      "label": "Block title",
+      "default": "Choisissez vos échantillons offerts"
+    },
+    {
+      "type": "text",
+      "id": "samples_count_label",
+      "label": "Selected count",
+      "default": "[count] échantillons offerts."
+    },
+    {
+      "type": "text",
+      "id": "samples_choose_label",
+      "label": "Choose button",
+      "default": "Choisir"
+    },
+    {
+      "type": "text",
+      "id": "samples_edit_label",
+      "label": "Edit button",
+      "default": "Modifier"
+    },
+    {
+      "type": "header",
+      "content": "Samples picker"
+    },
+    {
+      "type": "text",
+      "id": "picker_title",
+      "label": "Title",
+      "default": "Échantillons"
+    },
+    {
+      "type": "text",
+      "id": "picker_back_label",
+      "label": "Back button",
+      "default": "Revenir au panier"
+    },
+    {
+      "type": "text",
+      "id": "picker_add_label",
+      "label": "Add a sample",
+      "default": "Ajouter"
+    },
+    {
+      "type": "text",
+      "id": "picker_remove_label",
+      "label": "Remove a sample",
+      "default": "Retirer"
+    },
+    {
+      "type": "text",
+      "id": "validate_label",
+      "label": "Validate button",
+      "default": "Valider votre choix"
+    },
+    {
+      "type": "header",
+      "content": "Free gift"
+    },
+    {
+      "type": "product",
+      "id": "gift_product",
+      "label": "Gift product",
+      "info": "Ajouté et retiré automatiquement. Un produit à 0 €, ou un produit couvert par une remise automatique."
+    }
+  ],
+  "max_blocks": 3,
+  "blocks": [
+    {
+      "type": "shipping",
+      "name": "Livraison offerte",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "number",
+          "id": "amount",
+          "label": "Cart amount",
+          "default": 50,
+          "info": "Dans la devise de la boutique."
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Reward label",
+          "default": "Livraison offerte"
+        },
+        {
+          "type": "text",
+          "id": "message_locked",
+          "label": "Message before",
+          "default": "Plus que [reste] pour bénéficier de [avantage]"
+        },
+        {
+          "type": "text",
+          "id": "message_unlocked",
+          "label": "Message after",
+          "default": "Félicitations, vous avez débloqué [avantage]"
+        }
+      ]
+    },
+    {
+      "type": "samples",
+      "name": "Échantillons offerts",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "number",
+          "id": "amount",
+          "label": "Cart amount",
+          "default": 75,
+          "info": "Dans la devise de la boutique."
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Reward label",
+          "default": "3 échantillons offerts"
+        },
+        {
+          "type": "range",
+          "id": "samples_max",
+          "label": "Samples allowed",
+          "min": 0,
+          "max": 5,
+          "step": 1,
+          "default": 3
+        },
+        {
+          "type": "text",
+          "id": "message_locked",
+          "label": "Message before",
+          "default": "Plus que [reste] pour bénéficier de [avantage]"
+        },
+        {
+          "type": "text",
+          "id": "message_unlocked",
+          "label": "Message after",
+          "default": "Félicitations, vous avez débloqué [avantage]"
+        }
+      ]
+    },
+    {
+      "type": "gift",
+      "name": "Produit offert",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "number",
+          "id": "amount",
+          "label": "Cart amount",
+          "default": 100,
+          "info": "Dans la devise de la boutique."
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Reward label",
+          "default": "1 produit offert"
+        },
+        {
+          "type": "text",
+          "id": "message_locked",
+          "label": "Message before",
+          "default": "Plus que [reste] pour bénéficier de [avantage]"
+        },
+        {
+          "type": "text",
+          "id": "message_unlocked",
+          "label": "Message after",
+          "default": "Félicitations, vous avez débloqué [avantage]"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

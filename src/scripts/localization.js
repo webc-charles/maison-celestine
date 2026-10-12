@@ -7,7 +7,6 @@ export class KnrLocalization extends KnrComponent {
   constructor(select) {
     super()
 
-    this.select = select
     this.form = select.closest('form')
 
     if (!this.form) return

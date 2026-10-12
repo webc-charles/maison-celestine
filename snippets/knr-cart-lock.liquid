@@ -1,0 +1,72 @@
+{%- liquid
+  assign free_rows = ''
+  assign hidden_parts = ''
+  assign inert_links = ''
+  assign free_labels = ''
+  assign last_free_key = ''
+
+  for item in cart.items
+    if item.properties['_knr_sample'] or item.properties['_knr_gift']
+      assign row = '[data-key="' | append: item.key | append: '"]'
+      assign last_free_key = item.key
+
+      assign free_rows = free_rows | append: row | append: ','
+      assign inert_links = inert_links | append: row | append: ' a,'
+      assign free_labels = free_labels | append: row | append: ' .cart-items__price::after,'
+      assign hidden_parts = hidden_parts | append: row | append: ' .cart-items__quantity-controls,'
+      assign hidden_parts = hidden_parts | append: row | append: ' .cart-items__unit-price-wrapper,'
+      assign hidden_parts = hidden_parts | append: row | append: ' .cart-items__price text-component,'
+    endif
+  endfor
+
+  assign free_rows = free_rows | split: ',' | join: ','
+  assign hidden_parts = hidden_parts | split: ',' | join: ','
+  assign inert_links = inert_links | split: ',' | join: ','
+  assign free_labels = free_labels | split: ',' | join: ','
+
+  assign last_in_dom = cart.items.last
+  assign divider_to_restore = ''
+  unless last_in_dom.properties['_knr_sample'] or last_in_dom.properties['_knr_gift']
+    assign divider_to_restore = last_in_dom.key
+  endunless
+-%}
+
+{%- if free_rows != blank -%}
+  <style>
+    {{ hidden_parts }} {
+      display: none;
+    }
+
+    {{ inert_links }} {
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .cart-items__table tbody {
+      display: flex;
+      flex-direction: column;
+    }
+
+    {{ free_rows }} {
+      order: 1;
+    }
+
+    {{ free_labels }} {
+      content: {{ label | json }};
+    }
+
+    {%- if divider_to_restore != blank %}
+    .cart-items--dividers tr.cart-items__table-row[data-key="{{ divider_to_restore }}"] {
+      border-block-end: 1px solid rgb(var(--color-foreground-rgb) / var(--opacity-10-25));
+      margin-bottom: var(--cart-items-gap);
+      padding-bottom: var(--cart-items-gap);
+    }
+    {%- endif %}
+
+    .cart-items--dividers tr.cart-items__table-row[data-key="{{ last_free_key }}"] {
+      border-block-end: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+  </style>
+{%- endif -%}

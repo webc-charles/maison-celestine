@@ -43,7 +43,7 @@
           "name": "t:names.button",
           "settings": {
             "label": "Shop all",
-            "link": "shopify://collections/all",
+            "link": "shopify://collections/tous-les-soins",
             "open_in_new_tab": false,
             "style_class": "button-custom",
             "custom_button_background": "rgba(0, 0, 0, 0)",
@@ -256,7 +256,7 @@
       },
       "name": "t:names.featured_collection",
       "settings": {
-        "collection": "all",
+        "collection": "tous-les-soins",
         "layout_type": "grid",
         "carousel_on_mobile": false,
         "max_products": 8,

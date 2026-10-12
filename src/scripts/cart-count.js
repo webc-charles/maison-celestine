@@ -17,6 +17,8 @@ export class KnrCartCount extends KnrComponent {
     }
 
     document.addEventListener('shopify:cart:lines-update', (event) => this.refresh(event))
+
+    document.addEventListener('knr:cart:render', () => this.read())
   }
 
   refresh(event) {
@@ -36,7 +38,7 @@ export class KnrCartCount extends KnrComponent {
       const cart = await response.json()
 
       this.write(cart.item_count)
-    } catch (erreur) {
+    } catch (error) {
       return
     }
   }

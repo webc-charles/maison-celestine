@@ -1,0 +1,52 @@
+{%- liquid
+  assign count_text = settings.samples_count_label | replace: '[count]', sample_count
+
+  if sample_count > 0
+    assign action_label = settings.samples_edit_label
+  else
+    assign action_label = settings.samples_choose_label
+  endif
+
+  assign empty_slots = samples_max | minus: sample_count
+-%}
+
+<div class="knr-cart-samples">
+  <h3 class="knr-cart-samples__title">{{ settings.samples_title }}</h3>
+  <p class="knr-cart-samples__count">{{ count_text }}</p>
+
+  <div class="knr-cart-samples__row">
+    <ul class="knr-cart-samples__slots">
+      {%- for item in cart.items -%}
+        {%- if item.properties['_knr_sample'] -%}
+          <li class="knr-cart-samples__slot knr-cart-samples__slot--filled">
+            {%- if item.image -%}
+              {{
+                item.image
+                | image_url: width: 96
+                | image_tag: widths: '48, 96', alt: item.product.title, class: 'knr-cart-samples__thumb'
+              }}
+            {%- endif -%}
+          </li>
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- if empty_slots > 0 -%}
+        {%- for index in (1..empty_slots) -%}
+          <li class="knr-cart-samples__slot">
+            <span class="knr-cart-samples__empty" aria-hidden="true">
+              {% render 'knr-icon', name: 'plus', size: 12 %}
+            </span>
+          </li>
+        {%- endfor -%}
+      {%- endif -%}
+    </ul>
+
+    <button
+      class="knr-button knr-button--outlined knr-button--small knr-cart-samples__action"
+      type="button"
+      data-knr-cart-open-samples
+    >
+      <span class="knr-button__label">{{ action_label }}</span>
+    </button>
+  </div>
+</div>

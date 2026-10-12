@@ -188,7 +188,7 @@ export class KnrReviews extends KnrComponent {
       this.page += 1
 
       if (reveal) this.reveal()
-    } catch (erreur) {
+    } catch (error) {
       this.failed = true
 
       if (this.more) this.more.hidden = true

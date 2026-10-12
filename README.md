@@ -1,7 +1,7 @@
 # Maison Célestine
 
-Page produit Shopify reproduite à partir d'une maquette Figma, sur le thème
-Horizon.
+Page produit et panier gamifié, reproduits à partir de maquettes Figma, sur le
+thème Horizon.
 
 **Vitrine** : <https://maison-celestine-u8ylty24.myshopify.com/products/serum-precieux-regenerant>
 — mot de passe `KNRDEV`.

@@ -1,0 +1,48 @@
+{%- liquid
+  assign variant = product.selected_or_first_available_variant
+  assign chosen = false
+  assign key = ''
+
+  for item in cart.items
+    if item.variant_id == variant.id and item.properties['_knr_sample']
+      assign chosen = true
+      assign key = item.key
+      break
+    endif
+  endfor
+
+  assign media_alt = product.featured_image.alt | default: product.title
+-%}
+
+<article
+  class="knr-cart-sample"
+  data-knr-cart-sample
+  data-variant="{{ variant.id }}"
+  data-key="{{ key }}"
+  data-chosen="{{ chosen }}"
+>
+  <span class="knr-cart-sample__check" aria-hidden="true">
+    {% render 'knr-icon', name: 'check', size: 10 %}
+  </span>
+
+  <div class="knr-cart-sample__media">
+    {%- if product.featured_image -%}
+      {{
+        product.featured_image
+        | image_url: width: 320
+        | image_tag: widths: '160, 320', alt: media_alt, class: 'knr-cart-sample__image'
+      }}
+    {%- endif -%}
+  </div>
+
+  <h3 class="knr-cart-sample__title">{{ product.title }}</h3>
+
+  {%- if variant.title != 'Default Title' -%}
+    <p class="knr-cart-sample__format">{{ variant.title }}</p>
+  {%- endif -%}
+
+  <button class="knr-cart-sample__action" type="button" data-knr-cart-toggle-sample>
+    <span class="knr-cart-sample__add">{{ add_label }}</span>
+    <span class="knr-cart-sample__remove">{{ remove_label }}</span>
+  </button>
+</article>

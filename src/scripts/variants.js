@@ -7,7 +7,6 @@ export class KnrVariants extends KnrComponent {
   constructor(root) {
     super()
 
-    this.root = root
     this.variants = KnrVariants.parse(root)
     this.inputs = [...root.querySelectorAll('.knr-variant-picker__input')]
 
@@ -33,7 +32,7 @@ export class KnrVariants extends KnrComponent {
 
     try {
       return JSON.parse(island.textContent)
-    } catch (erreur) {
+    } catch (error) {
       return []
     }
   }

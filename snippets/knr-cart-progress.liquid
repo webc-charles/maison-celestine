@@ -1,0 +1,44 @@
+<div class="knr-cart-progress" style="--knr-cart-progress: {{ progress }}%" data-knr-cart-progress>
+  <div class="knr-cart-progress__card">
+    <p class="knr-cart-progress__message" aria-live="polite">{{ message }}</p>
+
+    <ol class="knr-cart-progress__track">
+      <li class="knr-cart-progress__rail" aria-hidden="true">
+        <span class="knr-cart-progress__fill"></span>
+      </li>
+
+      {%- for block in blocks -%}
+        {%- liquid
+          assign threshold = block.settings.amount | times: 100
+
+          assign reached = false
+          if paid_total >= threshold
+            assign reached = true
+          endif
+
+          case block.type
+            when 'samples'
+              assign icon = 'drop'
+            when 'gift'
+              assign icon = 'gift'
+            else
+              assign icon = 'truck'
+          endcase
+        -%}
+
+        <li
+          class="knr-cart-progress__step{% if reached %} knr-cart-progress__step--reached{% endif %}"
+          {{ block.shopify_attributes }}
+        >
+          <span class="knr-cart-progress__mark">
+            {% render 'knr-icon', name: icon %}
+          </span>
+          <span class="knr-cart-progress__label">{{ block.settings.label }}</span>
+          {%- if reached -%}
+            <span class="knr-visually-hidden">{{ block.settings.message_unlocked | replace: '[avantage]', block.settings.label }}</span>
+          {%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ol>
+  </div>
+</div>

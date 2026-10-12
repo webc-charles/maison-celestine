@@ -28,7 +28,6 @@ export class KnrScrollRow extends KnrComponent {
     super()
 
     this.indicator = indicator
-    this.fill = indicator.querySelector('.knr-progress__fill')
     this.steps = [...indicator.querySelectorAll('.knr-steps__step')]
     this.row = KnrScrollRow.near(indicator)
 

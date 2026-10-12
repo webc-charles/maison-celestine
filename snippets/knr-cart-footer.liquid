@@ -1,0 +1,25 @@
+<footer class="knr-cart-footer">
+  {{ before }}
+
+  {%- if action == 'validate' -%}
+    <button class="knr-button knr-button--filled knr-button--large knr-cart-footer__cta" type="button" data-knr-cart-validate>
+      <span class="knr-button__label">
+        {{ label }}
+        <span class="knr-cart-footer__separator" aria-hidden="true">|</span>
+        <span data-knr-cart-counter>{{ count }}/{{ max }}</span>
+      </span>
+    </button>
+  {%- else -%}
+    <a class="knr-button knr-button--filled knr-button--large knr-cart-footer__cta" href="{{ url }}">
+      <span class="knr-button__label">
+        {{ label }}
+        <span class="knr-cart-footer__separator" aria-hidden="true">|</span>
+        <span>{{ amount | money }}</span>
+      </span>
+    </a>
+  {%- endif -%}
+
+  {%- if note != blank -%}
+    <p class="knr-cart-footer__note">{{ note }}</p>
+  {%- endif -%}
+</footer>

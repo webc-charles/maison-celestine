@@ -12,7 +12,7 @@
 }
 
 .knr-rating__star {
-  color: var(--color-gold);
+  color: var(--knr-rating-ink, var(--color-gold));
   display: flex;
 }
 
@@ -28,5 +28,6 @@
 .knr-rating__count {
   @include text-small;
 
-  color: var(--color-gold);
+  color: var(--knr-rating-ink, var(--color-gold));
+  text-transform: var(--knr-rating-case, none);
 }

@@ -5,7 +5,7 @@ export class KnrComponent {
     for (const element of root.querySelectorAll(this.selector)) {
       if (this.mounted.has(element)) continue
 
-      this.mounted.add(element) 
+      this.mounted.add(element)
 
       this.instances.push(new this(element))
     }

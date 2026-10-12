@@ -25,7 +25,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap">
 
     {%- render 'stylesheets' -%}
     {%- render 'scripts' -%}
@@ -68,7 +68,7 @@
       {% section 'knr-footer-logo' %}
     </footer>
 
-    {% render 'cart-drawer', render_wrapper: true %}
+    {% section 'knr-cart-drawer' %}
     {% render 'theme-drawer' %}
 
     {% if settings.quick_add or settings.mobile_quick_add %}

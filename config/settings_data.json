@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "current": {
     "logo_height": 36,
@@ -45,11 +54,12 @@
     "button_border_radius_primary": 14,
     "secondary_button_border_width": 1,
     "button_border_radius_secondary": 14,
-    "cart_type": "drawer",
+    "cart_type": "page",
     "cart_price_font": "subheading",
     "auto_open_cart_drawer": true,
     "show_cart_note": false,
     "show_add_discount_code": true,
+    "empty_cart_button_link": "shopify://collections/tous-les-soins",
     "icon_stroke": "default",
     "palette_input_border": "{{ settings.color_palette.color3 }}",
     "input_border_width": 1,
@@ -58,6 +68,7 @@
     "currency_code_enabled_product_pages": false,
     "currency_code_enabled_product_cards": false,
     "currency_code_enabled_cart_items": false,
+    "empty_state_collection": "tous-les-soins",
     "product_corner_radius": 0,
     "card_corner_radius": 4,
     "show_variant_image": false,
@@ -83,8 +94,8 @@
           "announ-m1"
         ],
         "settings": {
-          "step_label": "Message [index]",
-          "region_label": "Annonces"
+          "region_label": "Annonces",
+          "step_label": "Message [index]"
         }
       },
       "knr-page-header": {
@@ -108,28 +119,32 @@
             "type": "detail",
             "settings": {
               "title": "Description",
-              "metafield": "hero_panel_description"
+              "metafield": "hero_panel_description",
+              "fallback": ""
             }
           },
           "produc-d2": {
             "type": "detail",
             "settings": {
               "title": "Bienfaits",
-              "metafield": "hero_panel_benefits"
+              "metafield": "hero_panel_benefits",
+              "fallback": ""
             }
           },
           "produc-d3": {
             "type": "detail",
             "settings": {
               "title": "Ingrédients clés",
-              "metafield": "hero_panel_key_ingredients"
+              "metafield": "hero_panel_key_ingredients",
+              "fallback": ""
             }
           },
           "produc-d4": {
             "type": "detail",
             "settings": {
               "title": "Adapté aux peaux",
-              "metafield": "hero_panel_skin_types"
+              "metafield": "hero_panel_skin_types",
+              "fallback": ""
             }
           },
           "produc-n1": {
@@ -233,6 +248,7 @@
       "knr-before-after": {
         "type": "knr-before-after",
         "settings": {
+          "testimonials_label": "Témoignages",
           "title": "Ce que disent nos clientes",
           "description": "Des transformations visibles dès 4 semaines. Nos clientes témoignent d'une peau visiblement régénérée, plus ferme et lumineuse.",
           "before_image": "shopify://shop_images/avant.jpg",
@@ -240,7 +256,8 @@
           "before_label": "Before",
           "after_label": "After",
           "slider_label": "Comparer avant et après",
-          "testimonials_label": "Témoignages"
+          "previous_label": "Témoignage précédent",
+          "next_label": "Témoignage suivant"
         }
       },
       "knr-faq": {
@@ -464,6 +481,73 @@
           "show_language": true,
           "country_label": "Pays",
           "language_label": "Langue"
+        }
+      },
+      "knr-cart-drawer": {
+        "type": "knr-cart-drawer",
+        "blocks": {
+          "knrcar-p1": {
+            "type": "shipping",
+            "settings": {
+              "amount": 50,
+              "label": "Livraison offerte",
+              "message_locked": "Plus que [reste] pour bénéficier de [avantage]",
+              "message_unlocked": "Félicitations, vous avez débloqué [avantage]"
+            }
+          },
+          "knrcar-p2": {
+            "type": "samples",
+            "settings": {
+              "amount": 75,
+              "label": "3 échantillons offerts",
+              "samples_max": 3,
+              "message_locked": "Plus que [reste] pour bénéficier de [avantage]",
+              "message_unlocked": "Félicitations, vous avez débloqué [avantage]"
+            }
+          },
+          "knrcar-p3": {
+            "type": "gift",
+            "settings": {
+              "amount": 100,
+              "label": "1 produit offert",
+              "message_locked": "Plus que [reste] pour bénéficier de [avantage]",
+              "message_unlocked": "Félicitations, vous avez débloqué [avantage]"
+            }
+          }
+        },
+        "block_order": [
+          "knrcar-p1",
+          "knrcar-p2",
+          "knrcar-p3"
+        ],
+        "settings": {
+          "title": "Votre panier",
+          "close_label": "Fermer le panier",
+          "empty_text": "Votre panier est vide.",
+          "remove_label": "Supprimer",
+          "gift_label": "OFFERT",
+          "rating_label": "[count] avis",
+          "increase_label": "Augmenter la quantité",
+          "decrease_label": "Diminuer la quantité",
+          "checkout_label": "Voir mon panier",
+          "legal_note": "Les frais de livraison et codes promo s’appliquent lors du paiement",
+          "all_unlocked_message": "Bravo, vous bénéficiez de tous vos cadeaux !",
+          "samples": [
+            "echantillon-serum-precieux-regenerant",
+            "echantillon-huile-precieuse",
+            "echantillon-serum-eclat",
+            "echantillon-creme-regenerante"
+          ],
+          "samples_title": "Choisissez vos échantillons offerts",
+          "samples_count_label": "[count] échantillons offerts.",
+          "samples_choose_label": "Choisir",
+          "samples_edit_label": "Modifier",
+          "picker_title": "Échantillons",
+          "picker_back_label": "Revenir au panier",
+          "picker_add_label": "Ajouter",
+          "picker_remove_label": "Retirer",
+          "validate_label": "Valider votre choix",
+          "gift_product": "mini-serum-precieux-offert"
         }
       }
     },

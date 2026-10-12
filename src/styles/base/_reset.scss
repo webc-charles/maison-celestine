@@ -1,4 +1,4 @@
-$roots: '.knr-page, .knr-announcement-bar, .knr-page-header, .knr-page-footer';
+$roots: '.knr-page, .knr-announcement-bar, .knr-page-header, .knr-page-footer, .knr-cart-drawer';
 
 :where(#{$roots}),
 :where(#{$roots}) *,

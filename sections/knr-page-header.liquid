@@ -40,7 +40,15 @@
       <span class="knr-visually-hidden">{{ section.settings.search_label }}</span>
     </a>
 
-    <a class="knr-button knr-button--ghost knr-button--small knr-button--square knr-page-header__cart" href="{{ routes.cart_url }}">
+    <a
+      class="knr-button knr-button--ghost knr-button--small knr-button--square knr-page-header__cart"
+      href="{{ routes.cart_url }}"
+      {%- unless template.name == 'cart' -%}
+        aria-haspopup="dialog"
+        aria-controls="knr-cart-drawer"
+        data-knr-cart-open
+      {%- endunless -%}
+    >
       {% render 'knr-icon', name: 'bag' %}
       <span class="knr-page-header__cart-count" data-knr-cart-count aria-hidden="true">{{ cart.item_count }}</span>
       <span class="knr-visually-hidden">{{ section.settings.cart_label }} ({{ cart.item_count }})</span>
